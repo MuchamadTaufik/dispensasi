@@ -17,8 +17,8 @@
                                 <form method="POST" action="/login">
                                     @csrf
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus autocomplete="Email" />
-                                        <label for="email">Email</label>
+                                        <input class="form-control" id="nomor_induk" class="block w-full mt-1" type="number" name="nomor_induk" :value="old('nomor_induk')" required autofocus autocomplete="Nomor Induk" />
+                                        <label for="nomor_induk">Nomor Induk</label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="password" class="block w-full mt-1" type="password" name="password" required autocomplete="current-password" />

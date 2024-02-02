@@ -28,5 +28,13 @@ Route::post('/import', [ImportController::class, 'import'])->name('import');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
-
 Route::post('/logout', [LoginController::class, 'logout']);
+
+
+
+Route::get('/profile', function () {
+    return view('profile.index');
+})->middleware('auth');
+
+Route::get('/change-password',[LoginController::class, 'changePassword'])->middleware('auth');
+Route::post('/change-password', [LoginController::class, 'processChangePassword']);

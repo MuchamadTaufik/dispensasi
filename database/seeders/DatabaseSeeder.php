@@ -22,9 +22,7 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'name' => 'Administrator',
-            'email' => 'admin@mail.com',
-            'role' => 'super_admin',
-            'password' => bcrypt('admin123'),
+            'nomor_induk' => '203040142',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
