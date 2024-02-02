@@ -7,7 +7,7 @@
             <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="file" name="file" accept=".xlsx, .csv">
-                <button type="submit">Import</button>
+                <button type="submit" class="mt-3">Import</button>
             </form>
             
             @if(session('success'))

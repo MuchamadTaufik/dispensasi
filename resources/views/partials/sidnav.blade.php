@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -32,21 +32,13 @@
                         </a>
                         <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="import-form">Register Excel</a>
-                                <a class="nav-link" href="register.html">Register Manual</a>
+                                <a class="nav-link" href="/import-form">Register Excel</a>
+                                <a class="nav-link" href="/register">Register Manual</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                        <a class="nav-link collapsed" href="/users">
                             Users
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="401.html">User</a>
-                                <a class="nav-link" href="404.html">Guru Piket</a>
-                                <a class="nav-link" href="500.html">Super Admin</a>
-                            </nav>
-                        </div>
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Data</div>

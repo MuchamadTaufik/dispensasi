@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
+    public function ShowUserlist(){
+        $user = User::all();
+        return view('dashboard-admin.users', compact('user'));
+    }
+
     public function index()
     {
         return view ('auth.login',[
@@ -25,7 +30,7 @@ class LoginController extends Controller
 
         if(Auth::attempt($credentianls)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
         return back()->with('loginError', 'Login Failed!');
@@ -41,30 +46,30 @@ class LoginController extends Controller
         return redirect('/login');
     }
 
-    public function changePassword()
-    {
-        return view('auth.change-password');
-    }
+    // public function changePassword()
+    // {
+    //     return view('auth.change-password');
+    // }
 
-    public function processChangePassword(Request &$request)
-    {
-        if(!Hash::check($request->old_password, auth()->user()->passwrod)) {
-            return back()->with('error', 'old password not match with your current password');
-        }
+    // public function processChangePassword(Request &$request)
+    // {
+    //     if(!Hash::check($request->old_password, auth()->user()->passwrod)) {
+    //         return back()->with('error', 'old password not match with your current password');
+    //     }
 
-        if($request->new_password != $request->repeat_password) {
-            return back()->with('error', 'new password and repeat password not match');
-        }
+    //     if($request->new_password != $request->repeat_password) {
+    //         return back()->with('error', 'new password and repeat password not match');
+    //     }
         
-        auth()->user()->update([
-            'password' => Hash::make($request->new_password)
-        ]);
+    //     auth()->user()->update([
+    //         'password' => Hash::make($request->new_password)
+    //     ]);
 
-        // $user = auth()->user();
-        // $user->password = Hash::make($request->new_password);
-        // /** @var \App\Models\User $user **/
-        // $user->save();
-    }
+    //     // $user = auth()->user();
+    //     // $user->password = Hash::make($request->new_password);
+    //     // /** @var \App\Models\User $user **/
+    //     // $user->save();
+    // }
 
     
 }

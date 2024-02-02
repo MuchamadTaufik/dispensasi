@@ -11249,7 +11249,7 @@ button {
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 40%;
+            width: 100%;
 }
 
 button:hover {

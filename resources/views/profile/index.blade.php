@@ -10,7 +10,7 @@
                     <div class="col-auto my-auto">
                         <div class="h-100">
                             <h5 class="mb-1">
-                                {{ auth()->user()->role }}
+                                {{ auth()->user()->role->name }}
                             </h5>
                         </div>
                     </div>
@@ -28,12 +28,16 @@
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Nama</label>
                                     <p class="border border-2 p-2">{{ auth()->user()->name }}</p>
-                                    <p><a href="/change-password">Change Password</a></p>
                                 </div>
                                 
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Nomor Induk</label>
                                     <p class="border border-2 p-2">{{ auth()->user()->nomor_induk }}</p>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <p class="border border-2 p-2">{{ auth()->user()->email }}</p>
+                                    <p><a href="/change-password">Change Password</a></p>
                                 </div>
                             </div>
                     </div>

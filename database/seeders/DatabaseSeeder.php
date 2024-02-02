@@ -19,12 +19,5 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        User::create([
-            'name' => 'Administrator',
-            'nomor_induk' => '203040142',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 }
