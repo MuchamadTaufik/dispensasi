@@ -7,7 +7,6 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-                <div class="sb-sidenav-menu-heading">Interface</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Dispensasi
@@ -19,6 +18,8 @@
                         <a class="nav-link" href="layout-sidenav-light.html">Keluar</a>
                     </nav>
                 </div>
+                <hr>
+                <div class="sb-sidenav-menu-heading">Data</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Account
@@ -41,7 +42,6 @@
                         </a>
                     </nav>
                 </div>
-                <div class="sb-sidenav-menu-heading">Data</div>
                 <a class="nav-link" href="charts.html">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Recapitulation
@@ -51,10 +51,6 @@
                     Letter
                 </a>
             </div>
-        </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">The child website of</div>
-            MAN 2 Kota Bandung
         </div>
     </nav>
 </div>

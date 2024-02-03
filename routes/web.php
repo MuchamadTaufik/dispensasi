@@ -34,14 +34,14 @@ Route::post('register', [RegisterController::class, 'store'])->middleware('auth'
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 
-Route::get('/users', function () {
-    return view('dashboard-admin.users');
-})->middleware('auth');
-
 Route::get('/users', [LoginController::class, 'ShowUserlist'])->middleware('auth');
 
 Route::get('/profile', function () {
     return view('profile.index');
+})->middleware('auth');
+
+Route::get('/dispensasi-masuk', function () {
+    return view('dispensasi.masuk.index');
 })->middleware('auth');
 
 // Route::get('/change-password',[LoginController::class, 'changePassword'])->middleware('auth');
