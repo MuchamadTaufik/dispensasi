@@ -7,19 +7,16 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                    Dispensasi
-                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                <a class="nav-link" href="/pengajuan">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Pengajuan
                 </a>
-                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">Masuk</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">Keluar</a>
-                    </nav>
-                </div>
                 <hr>
                 <div class="sb-sidenav-menu-heading">Data</div>
+                <a class="nav-link" href="/dispensasi">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Dispensasi
+                </a>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Account
