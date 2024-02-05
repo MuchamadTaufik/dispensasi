@@ -51,6 +51,11 @@ class User extends Authenticatable
 
     public function dispensasi()
     {
-        return $this->belongsTo(Dispensasi::class);
+        return $this->hasMany(Dispensasi::class);
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
     }
 }

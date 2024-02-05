@@ -33,7 +33,7 @@
                         <tbody>
                             @foreach ($user as $users)
                             <tr>
-                                <td>{{ $users->id }}</td>
+                                <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $users->name }}</td>
                                 <td>{{ $users->nomor_induk }}</td>
                                 <td>{{ $users->email }}</td>

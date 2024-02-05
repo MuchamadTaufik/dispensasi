@@ -5,6 +5,12 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
+            @if(session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <h1 class="mt-4">Dashboard</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Hallo Selamat Datang, {{ auth()->user()->name }}</li>

@@ -29,7 +29,10 @@
                                     <label class="form-label">Nama</label>
                                     <p class="border border-2 p-2">{{ auth()->user()->name }}</p>
                                 </div>
-                                
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Kelas</label>
+                                    <p class="border border-2 p-2">{{ auth()->user()->kelas->name }}</p>
+                                </div>
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Nomor Induk</label>
                                     <p class="border border-2 p-2">{{ auth()->user()->nomor_induk }}</p>

@@ -50,13 +50,29 @@ class DispensasiController extends Controller
      */
     public function store(StoreDispensasiRequest $request)
     {
+            // Mendapatkan pengguna yang sedang terotentikasi
+        $user = Auth::user();
+
+        // Pengecekan apakah pengguna sudah memiliki dispensasi atau tidak
+        $existingDispensasi = Dispensasi::where('user_id', $user->id)->first();
+
+        // Jika pengguna sudah memiliki dispensasi, redirect kembali dengan pesan error
+        if ($existingDispensasi) {
+            return redirect('/pengajuan')->with('error', 'You have already submitted a dispensation.');
+        }
+
+        // Jika pengguna belum memiliki dispensasi, lanjutkan dengan validasi dan penyimpanan data
         $validateData = $request->validate([
             'user_id' => 'required',
             'jam_keluar' => 'required|date_format:Y-m-d\TH:i',
             'jam_kembali' => 'required|date_format:Y-m-d\TH:i',
             'alasan' => 'required|max:255',
-            'bukti' => 'required',
+            'bukti' => 'image|file|max:2048',
         ]);
+
+        if ($request->file('bukti')) {
+            $validateData['bukti'] = $request->file('bukti')->store('dispensasi-images');
+        }
 
         Dispensasi::create($validateData);
 

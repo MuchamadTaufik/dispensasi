@@ -44,7 +44,13 @@
                                 <td>{{ $dispensasi->jam_keluar }}</td>
                                 <td>{{ $dispensasi->jam_kembali }}</td>
                                 <td>{{ $dispensasi->alasan }}</td>
-                                <td>{{ $dispensasi->bukti }}</td>
+                                <td>
+                                    @if ($dispensasi->bukti)
+                                        <a href="{{ asset('storage/' . $dispensasi->bukti) }}" download="{{ $dispensasi->bukti }}">
+                                            {{ $dispensasi->bukti }}
+                                        </a>
+                                    @endif
+                                </td>
                                 <td>ACC</td>
                                 <td>Hapus</td>
                             </tr>

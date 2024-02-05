@@ -24,6 +24,24 @@
                                         <input class="form-control" id="nomor_induk" class="block w-full mt-1" type="number" name="nomor_induk" value="{{ old('nomor_induk') }}"  required />
                                         <label for="nomor_induk">Nomor Induk</label>
                                     </div>
+                                    <div class="mb-2">
+                                        <label for="kelas_id" class="form-label">Kelas</label>
+                                        <select class="form-select" name="kelas_id" required>
+                                            <option value="" @if(old('kelas_id') === null) selected @endif>-- Pilih Kelas --</option>
+                                            @foreach ($kelas as $kelases)
+                                                <option value="{{ $kelases->id }}" @if(old('kelas_id') == $kelases->id) selected @endif>{{ $kelases->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="role_id" class="form-label">Role</label>
+                                        <select class="form-select" name="role_id" required>
+                                            <option value="" @if(old('role_id') === null) selected @endif>-- Pilih Role --</option>
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}" @if(old('role_id') == $role->id) selected @endif>{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>                                    
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="email" class="block w-full mt-1" type="email" name="email" value="{{ old('email') }}"  required />
                                         <label for="email">Email</label>

@@ -5,7 +5,13 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <form action="/pengajuan" method="POST" class="mt-3">
+            @if(session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <form action="/pengajuan" method="POST" class="mt-3" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-2">
                     <label for="name" class="form-label">Name</label>
@@ -18,7 +24,7 @@
                     </select>
                 
                     <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
-                </div>              
+                </div>                    
                 <div class="mb-2">
                     <label for="jam_keluar" class="form-label">Jam Keluar</label>
                     <input type="datetime-local" class="form-control @error('jam_keluar') is-invalid @enderror" id="jam_keluar" name="jam_keluar" required autofocus value="{{ old('jam_keluar') }}">
@@ -46,9 +52,9 @@
                         </div>
                     @enderror
                 </div>
-                <div class="mb-2">
-                    <label for="bukti" class="form-label">Bukti</label>
-                    <input type="text" class="form-control @error('bukti') is-invalid @enderror" id="bukti" name="bukti" required autofocus value="{{ old('bukti') }}">
+                <div class="mb-3">
+                    <label for="bukti" class="form-label">Upload Bukti</label>
+                    <input type="file" class="form-control @error('bukti') is-invalid @enderror" id="bukti" name="bukti" required autofocus>
                     @error('bukti')
                         <div class="invalid-feedback">
                             {{ $message }}
