@@ -15,12 +15,13 @@
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Hallo Selamat Datang, {{ auth()->user()->name }}</li>
             </ol>
+            <h5 class="btn btn-dark"> Total {{ $totalDispensasi }} Dispensasi</h5>
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-dark text-white mb-4">
                         <div class="card-body">
-                            <p>Total Pengguna</p>
-                            <h4>{{ $users }} User</h4>
+                            <p>Total Dispensasi Keluar</p>
+                            <h4>{{ $dispensasisKeluar }} User</h4>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="/users">View Details</a>
@@ -28,11 +29,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-dark text-white mb-4">
                         <div class="card-body">
-                            <p>Total Dispensasi</p>
-                            <h4>{{ $users }} User</h4>
+                            <p>Total Dispensasi Masuk</p>
+                            <h4>{{ $dispensasisMasuk }} User</h4>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="/users">View Details</a>
@@ -40,11 +41,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-dark text-white mb-4">
                         <div class="card-body">
-                            <p>Total Sakit</p>
-                            <h4>{{ $users }} User</h4>
+                            <p>Total Dispensasi Sakit</p>
+                            <h4>{{ $dispensasisSakit}} User</h4>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="/users">View Details</a>
@@ -52,11 +53,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-md-3 col-sm-6">
                     <div class="card bg-dark text-white mb-4">
                         <div class="card-body">
-                            <p>Total Izin</p>
-                            <h4>{{ $users }} User</h4>
+                            <p>Total Dispensasi Izin</p>
+                            <h4>{{ $dispensasisIzin }} User</h4>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="/users">View Details</a>
@@ -65,6 +66,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card mb-4">

@@ -15,4 +15,14 @@ class Dispensasi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
+
+    public function alasan()
+    {
+        return $this->belongsTo(Alasan::class);
+    }
 }

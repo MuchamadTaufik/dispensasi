@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Type;
 use App\Models\User;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreDispensasiRequest;
 use App\Http\Requests\UpdateDispensasiRequest;
+use App\Models\Alasan;
 
 class DispensasiController extends Controller
 {
@@ -16,23 +18,42 @@ class DispensasiController extends Controller
     public function index()
     {
         // Mendapatkan pengguna yang sedang terotentikasi
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // Inisialisasi variabel dispensasis
-    $dispensasis = null;
+        // Inisialisasi variabel dispensasisKeluar dan dispensasisMasuk
+        $dispensasisKeluar = null;
+        $dispensasisMasuk = null;
 
-    // Jika pengguna adalah admin, dapatkan semua data dispensasi
-    if ($user->role_id === 1 || $user->role_id === 2 ) {
-        $dispensasis = Dispensasi::all();
-    } else {
-        // Jika pengguna bukan admin, hanya dapatkan data dispensasi yang terkait dengan pengguna
-        $dispensasis = Dispensasi::where('user_id', $user->id)->get();
-    }
+        // Inisialisasi variabel dispensasisSakit dan dispensasisIzin
+        $dispensasisSakit = null;
+        $dispensasisIzin = null;
 
-    return view('dashboard-admin.dispensasi', [
-        'users' => User::all(),
-        'dispensasis' => $dispensasis,
-    ]);
+        // Jika pengguna adalah admin, dapatkan semua data dispensasi
+        if ($user->role_id === 1 || $user->role_id === 2) {
+            $dispensasisKeluar = Dispensasi::where('type_id', 2)->get();
+            $dispensasisMasuk = Dispensasi::where('type_id', 1)->get();
+
+            $dispensasisSakit = Dispensasi::where('alasan_id', 'sakit')->get();
+            $dispensasisIzin = Dispensasi::where('alasan_id', 'izin')->get();
+        } else {
+            // Jika pengguna bukan admin, hanya dapatkan data dispensasi yang terkait dengan pengguna
+            $dispensasisKeluar = Dispensasi::where('user_id', $user->id)->where('type_id', 2)->get();
+            $dispensasisMasuk = Dispensasi::where('user_id', $user->id)->where('type_id', 1)->get();
+
+            $dispensasisSakit = Dispensasi::where('user_id', $user->id)->where('alasan_id', 'sakit')->get();
+            $dispensasisIzin = Dispensasi::where('user_id', $user->id)->where('alasan_id', 'izin')->get();
+        }
+
+        return view('dashboard-admin.dispensasi', [
+            'users' => User::all(),
+            'types' => Type::all(),
+            'alasans' => Alasan::all(),
+            'dispensasisKeluar' => $dispensasisKeluar,
+            'dispensasisMasuk' => $dispensasisMasuk,
+            'dispensasisSakit' => $dispensasisSakit,
+            'dispensasisIzin' => $dispensasisIzin,
+        ]);
+
     }
 
     /**
@@ -41,7 +62,9 @@ class DispensasiController extends Controller
     public function create()
     {
         return view('dashboard-admin.pengajuan',[
-        'users' => User::all()
+        'users' => User::all(),
+        'types' => Type::all(),
+        'alasans' => Alasan::all(),
         ]);
     }
 
@@ -64,9 +87,12 @@ class DispensasiController extends Controller
         // Jika pengguna belum memiliki dispensasi, lanjutkan dengan validasi dan penyimpanan data
         $validateData = $request->validate([
             'user_id' => 'required',
-            'jam_keluar' => 'required|date_format:Y-m-d\TH:i',
-            'jam_kembali' => 'required|date_format:Y-m-d\TH:i',
-            'alasan' => 'required|max:255',
+            'type_id' => 'required',
+            'waktu_masuk' => 'nullable|date_format:Y-m-d\TH:i',
+            'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i',
+            'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i',
+            'alasan_id' => 'required',
+            'deskripsi' => 'nullable|max:255',
             'bukti' => 'image|file|max:2048',
         ]);
 

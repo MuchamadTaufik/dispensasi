@@ -16,9 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict');
-            $table->string('jam_keluar');
-            $table->string('jam_kembali');
-            $table->string('alasan');
+            $table->foreignId('type_id');
+            $table->string('waktu_masuk')->nullable();
+            $table->string('waktu_keluar')->nullable();
+            $table->string('waktu_kembali')->nullable();
+            $table->foreignId('alasan_id');
+            $table->string('deskripsi');
             $table->string('bukti');
             $table->timestamps();
         });
