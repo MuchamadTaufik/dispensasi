@@ -11255,3 +11255,28 @@ button {
 button:hover {
   background-color: #2779bd;
 }
+
+/* Styles for label with warning color */
+.label-warning {
+  background-color: #ffc107;  /* Yellow */
+  color: #212529;           /* Dark text color */
+  padding: 5px 10px;        /* Padding for better spacing */
+  border-radius: 5px;       /* Rounded corners */
+}
+
+/* Styles for label with success color */
+.label-success {
+  background-color: #28a745; /* Green */
+  color: #fff;               /* White text color */
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Styles for label with danger color */
+.label-danger {
+  background-color: #dc3545; /* Red */
+  color: #fff;               /* White text color */
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+

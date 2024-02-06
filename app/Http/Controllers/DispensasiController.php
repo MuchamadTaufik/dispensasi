@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Type;
 use App\Models\User;
+use App\Models\Alasan;
+use App\Models\Status;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreDispensasiRequest;
 use App\Http\Requests\UpdateDispensasiRequest;
-use App\Models\Alasan;
 
 class DispensasiController extends Controller
 {
@@ -48,6 +49,7 @@ class DispensasiController extends Controller
             'users' => User::all(),
             'types' => Type::all(),
             'alasans' => Alasan::all(),
+            'statuses' => Status::all(),
             'dispensasisKeluar' => $dispensasisKeluar,
             'dispensasisMasuk' => $dispensasisMasuk,
             'dispensasisSakit' => $dispensasisSakit,
@@ -65,6 +67,7 @@ class DispensasiController extends Controller
         'users' => User::all(),
         'types' => Type::all(),
         'alasans' => Alasan::all(),
+        'statuses' => Status::all(),
         ]);
     }
 
@@ -94,6 +97,7 @@ class DispensasiController extends Controller
             'alasan_id' => 'required',
             'deskripsi' => 'nullable|max:255',
             'bukti' => 'image|file|max:2048',
+            'status_id' => 'nullable'
         ]);
 
         if ($request->file('bukti')) {

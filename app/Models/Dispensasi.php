@@ -25,4 +25,10 @@ class Dispensasi extends Model
     {
         return $this->belongsTo(Alasan::class);
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
+
 }

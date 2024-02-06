@@ -60,7 +60,19 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>ACC</td>
+                                    @if($dispensasi->status_id == 1)
+                                        <td>
+                                            <label class="label label-warning">{{ $dispensasi->status->name }}</label>
+                                        </td>
+                                    @elseif($dispensasi->status_id == 2)
+                                        <td>
+                                            <label class="label label-success">{{ $dispensasi->status->name }}</label>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <label class="label label-danger">{{ $dispensasi->status_id ? $dispensasi->status->name : 'Unknown Status' }}</label>
+                                        </td>
+                                    @endif
                                     <td>Hapus</td>
                                 </tr>
                             @endforeach
@@ -121,7 +133,19 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>ACC</td>
+                                    @if($dispensasi->status_id == 1)
+                                        <td>
+                                            <label class="label label-warning">{{ $dispensasi->status->name }}</label>
+                                        </td>
+                                    @elseif($dispensasi->status_id == 2)
+                                        <td>
+                                            <label class="label label-success">{{ $dispensasi->status->name }}</label>
+                                        </td>
+                                    @else
+                                        <td>
+                                            <label class="label label-danger">{{ $dispensasi->status_id ? $dispensasi->status->name : 'Unknown Status' }}</label>
+                                        </td>
+                                    @endif
                                     <td>Hapus</td>
                                 </tr>
                             @endforeach
