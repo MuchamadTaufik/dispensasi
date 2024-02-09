@@ -8,6 +8,7 @@ use App\Models\Alasan;
 use App\Models\Status;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDispensasiRequest;
 use App\Http\Requests\UpdateDispensasiRequest;
 
@@ -141,4 +142,55 @@ class DispensasiController extends Controller
     {
         //
     }
+
+    public function approved($id)
+    {
+        try {
+            // Check if the authenticated user has the role of "guru-piket"
+            if (auth()->user()->role_id === 2) {
+                // Assuming status_id 2 is for accepted status
+                Dispensasi::where('id', $id)->update([
+                    'status_id' => 2
+                ]);
+
+                return redirect('/')->with('success', 'Dispensasi has been approved successfully.');
+            } else {
+                return redirect('/')->with('error', 'You do not have permission to approve dispensasi.');
+            }
+        } catch (\Exception $e) {
+            return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
+        }
+    }
+
+    public function rejected($id)
+    {
+        try {
+            // Check if the authenticated user has the role of "guru-piket"
+            if (auth()->user()->role_id === 2) {
+                // Fetch the dispensasi data
+                $dispensasi = Dispensasi::find($id);
+    
+                // Assuming status_id 3 is for rejected status
+                $dispensasi->update([
+                    'status_id' => 3
+                ]);
+    
+                // Delete the associated image
+                if ($dispensasi->bukti) {
+                    Storage::delete($dispensasi->bukti);
+                }
+    
+                // Delete the dispensasi data
+                $dispensasi->delete();
+    
+                return redirect('/')->with('success', 'Dispensasi has been rejected.');
+            } else {
+                return redirect('/')->with('error', 'You do not have permission to reject dispensasi.');
+            }
+        } catch (\Exception $e) {
+            return redirect('/')->with('error', 'Failed to reject dispensasi. Error: ' . $e->getMessage());
+        }
+    }
+    
+
 }

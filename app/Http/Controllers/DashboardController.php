@@ -10,16 +10,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Calculate the total dispensasi
-        $dispensasisMasuk = Dispensasi::where('type_id', 1)->count();
-        $dispensasisKeluar = Dispensasi::where('type_id', 2)->count();
+        $dispensasisMasuk = Dispensasi::where('type_id', 1)->where('status_id', 2)->count();
+        $dispensasisKeluar = Dispensasi::where('type_id', 2)->where('status_id', 2)->count();
 
-        $dispensasisSakit = Dispensasi::where('alasan_id', 1)->count();
-        $dispensasisIzin = Dispensasi::where('alasan_id', 2)->count();
+        $dispensasisSakit = Dispensasi::where('alasan_id', 1)->where('status_id', 2)->count();
+    $dispensasisIzin = Dispensasi::where('alasan_id', 2)->where('status_id', 2)->count();
+
 
         return view('dashboard-admin.index', [
             'users' => User::count(),
-            'totalDispensasi' => Dispensasi::count(),
+            'totalDispensasi' => Dispensasi::where('status_id', 2)->count(),
             'dispensasisMasuk' => $dispensasisMasuk,
             'dispensasisKeluar' => $dispensasisKeluar,
             'dispensasisSakit' => $dispensasisSakit,
