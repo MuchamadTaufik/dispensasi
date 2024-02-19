@@ -25,6 +25,9 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/profile', function () {
         return view('profile.index');
     })->middleware('auth');
+    Route::get('/notifikasi', function () {
+        return view('profile.notifikasi');
+    })->middleware('auth');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/import-form', [ImportController::class, 'importForm'])->name('import.form');
     Route::post('/import', [ImportController::class, 'import'])->name('import');

@@ -11,7 +11,8 @@
                     Users Account
                 </div>
                 <div class="card-body">
-                    <table id="datatablesSimple">
+                    <table id="datatablesSimpleKeluar">
+                        <!-- Table Header and Footer (Same as before) -->
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -19,6 +20,7 @@
                                 <th>Nomor Induk</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -28,6 +30,7 @@
                                 <th>Nomor Induk</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -38,6 +41,7 @@
                                 <td>{{ $users->nomor_induk }}</td>
                                 <td>{{ $users->email }}</td>
                                 <td>{{ $users->role->name }}</td>
+                                <td>Delete</td>
                             </tr>
                             @endforeach
                         </tbody>

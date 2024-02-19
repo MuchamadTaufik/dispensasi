@@ -8,9 +8,12 @@ use App\Models\Alasan;
 use App\Models\Status;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\DispensasiReject;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\DispensasiApprove;
 use App\Http\Requests\StoreDispensasiRequest;
 use App\Http\Requests\UpdateDispensasiRequest;
+
 
 class DispensasiController extends Controller
 {
@@ -149,9 +152,13 @@ class DispensasiController extends Controller
             // Check if the authenticated user has the role of "guru-piket"
             if (auth()->user()->role_id === 2) {
                 // Assuming status_id 2 is for accepted status
-                Dispensasi::where('id', $id)->update([
+                $dispensasi = Dispensasi::find($id);
+                $dispensasi->update([
                     'status_id' => 2
                 ]);
+
+                // Mengirim notifikasi setelah dispensasi disetujui
+                $dispensasi->user->notify(new DispensasiApprove($dispensasi));
 
                 return redirect('/')->with('success', 'Dispensasi has been approved successfully.');
             } else {
@@ -161,6 +168,7 @@ class DispensasiController extends Controller
             return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
         }
     }
+
 
     public function rejected($id)
     {
@@ -179,7 +187,10 @@ class DispensasiController extends Controller
                 if ($dispensasi->bukti) {
                     Storage::delete($dispensasi->bukti);
                 }
-    
+                
+                // Mengirim notifikasi setelah dispensasi disetujui
+                $dispensasi->user->notify(new DispensasiReject($dispensasi));
+
                 // Delete the dispensasi data
                 $dispensasi->delete();
     
