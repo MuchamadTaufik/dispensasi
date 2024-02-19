@@ -17,12 +17,14 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict');
             $table->foreignId('type_id');
-            $table->string('waktu_masuk')->nullable();
-            $table->string('waktu_keluar')->nullable();
-            $table->string('waktu_kembali')->nullable();
+            $table->timestamp('waktu_masuk')->nullable();
+            $table->timestamp('waktu_keluar')->nullable();
+            $table->timestamp('waktu_kembali')->nullable();
             $table->foreignId('alasan_id');
             $table->string('deskripsi');
             $table->string('bukti');
+            $table->timestamp('waktu_persetujuan')->nullable();
+            $table->integer('durasi_timer')->nullable();
             $table->timestamps();
         });
     }

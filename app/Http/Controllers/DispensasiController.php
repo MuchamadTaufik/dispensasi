@@ -9,6 +9,7 @@ use App\Models\Status;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\DispensasiReject;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\DispensasiApprove;
 use App\Http\Requests\StoreDispensasiRequest;
@@ -146,15 +147,54 @@ class DispensasiController extends Controller
         //
     }
 
+    // public function approved($id)
+    // {
+    //     try {
+    //         // Check if the authenticated user has the role of "guru-piket"
+    //         if (auth()->user()->role_id === 2) {
+    //             // Assuming status_id 2 is for accepted status
+    //             $dispensasi = Dispensasi::find($id);
+    //             $dispensasi->update([
+    //                 'status_id' => 2
+    //             ]);
+
+    //             // Mengirim notifikasi setelah dispensasi disetujui
+    //             $dispensasi->user->notify(new DispensasiApprove($dispensasi));
+
+    //             return redirect('/')->with('success', 'Dispensasi has been approved successfully.');
+    //         } else {
+    //             return redirect('/')->with('error', 'You do not have permission to approve dispensasi.');
+    //         }
+    //     } catch (\Exception $e) {
+    //         return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
+    //     }
+    // }
+
     public function approved($id)
     {
         try {
             // Check if the authenticated user has the role of "guru-piket"
             if (auth()->user()->role_id === 2) {
-                // Assuming status_id 2 is for accepted status
                 $dispensasi = Dispensasi::find($id);
+
+                // Set waktu persetujuan
+                $waktuPersetujuan = now();
+
+                // Check if the type is keluar
+                if ($dispensasi->type_id == 2) {
+                    // Calculate timer duration only if the type is keluar
+                    $waktuKembali = $dispensasi->waktu_kembali;
+                    $durasiTimer = strtotime($waktuKembali) - strtotime($waktuPersetujuan);
+                } else {
+                    // For type masuk, set the timer duration to null
+                    $durasiTimer = null;
+                }
+
+                // Update columns waktu_persetujuan and durasi_timer
                 $dispensasi->update([
-                    'status_id' => 2
+                    'status_id' => 2,
+                    'waktu_persetujuan' => $waktuPersetujuan,
+                    'durasi_timer' => $durasiTimer
                 ]);
 
                 // Mengirim notifikasi setelah dispensasi disetujui
@@ -168,7 +208,6 @@ class DispensasiController extends Controller
             return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
         }
     }
-
 
     public function rejected($id)
     {
@@ -203,5 +242,4 @@ class DispensasiController extends Controller
         }
     }
     
-
 }

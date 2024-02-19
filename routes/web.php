@@ -40,8 +40,8 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/pengajuan',[DispensasiController::class, 'store']);
     Route::get('/dashboard-admin/approved/{id}',[DispensasiController::class, 'approved']);
     Route::get('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
-
 });
+
 
 // Route::get('/change-password',[LoginController::class, 'changePassword'])->middleware('auth');
 // Route::post('/change-password', [LoginController::class, 'processChangePassword']);

@@ -11280,3 +11280,6 @@ button:hover {
   border-radius: 5px;
 }
 
+.expired-row {
+  background-color: #ffcccc; /* Atur warna latar belakang baris menjadi merah */
+}
