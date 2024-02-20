@@ -43,7 +43,7 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                     Recapitulation
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/surat">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Letter
                 </a>

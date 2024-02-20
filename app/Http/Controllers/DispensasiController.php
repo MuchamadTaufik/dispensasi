@@ -6,6 +6,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Alasan;
 use App\Models\Status;
+use Barryvdh\DomPDF\PDF;
 use App\Models\Dispensasi;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\DispensasiReject;
@@ -118,9 +119,26 @@ class DispensasiController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(Dispensasi $dispensasi)
     {
-        //
+        $user = auth()->user();
+
+        // Check if the authenticated user is the owner of the dispensasi or has the role of "guru-piket"
+        if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
+            $user->role_id === 2) {
+            return view('dashboard-admin.surat', [
+                'users' => User::all(),
+                'types' => Type::all(),
+                'alasans' => Alasan::all(),
+                'statuses' => Status::all(),
+                'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
+                'dispensasi' => $dispensasi,
+            ]);
+        } else {
+            // Handle unauthorized access
+            return redirect('/')->with('error', 'Unauthorized access to dispensasi data.');
+        }
     }
 
     /**
@@ -241,5 +259,27 @@ class DispensasiController extends Controller
             return redirect('/')->with('error', 'Failed to reject dispensasi. Error: ' . $e->getMessage());
         }
     }
+
+    public function downloadPdf(Dispensasi $dispensasi)
+    {
+        $user = auth()->user();
+
+        // Check if the user is the owner of the dispensasi, has the role of "guru-piket", or if dispensasi is approved
+        if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
+            $user->role_id === 2) {
+            
+            $pdf = app(PDF::class);
+            $pdf->loadView('dashboard-admin.surat', [
+                'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
+                'dispensasi' => $dispensasi
+            ]);
+
+            return $pdf->download('dispensasi.pdf');
+        } else {
+            // Handle unauthorized access
+            return redirect('/')->with('error', 'Unauthorized access to dispensasi data.');
+        }
+    }
+
     
 }

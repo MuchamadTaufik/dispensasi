@@ -27,6 +27,7 @@
                                 <th>Status</th>
                                 <th>Action</th>
                                 <th>Timer</th>
+                                <th>Cetak</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -42,6 +43,7 @@
                                 <th>Status</th>
                                 <th>Action</th>
                                 <th>Timer</th>
+                                <th>Cetak</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -95,6 +97,20 @@
                                         <div id="timer{{ $dispensasi->id }}"></div>
                                         <div id="keterlambatan{{ $dispensasi->id }}"></div>
                                     </td>
+                                    <td>
+                                        <a href="{{ route('dispensasi.show', ['dispensasi' => $dispensasi->id]) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                            </svg>
+                                        </a>
+                                        <a href="{{ route('download-pdf', $dispensasi->id) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                <path d="M8 0a.5.5 0 0 1 .5.5v9.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 10.293V.5A.5.5 0 0 1 8 0z"/>
+                                                <path d="M0 12.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h16a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H0zM5 9a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5z"/>
+                                            </svg>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -122,6 +138,7 @@
                                 <th>Bukti</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                <th>Cetak</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -135,6 +152,7 @@
                                 <th>Bukti</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                <th>Cetak</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -183,6 +201,20 @@
                                             </svg>
                                         </a>
                                     </td>
+                                <td>
+                                    <a href="{{ route('dispensasi.show', ['dispensasi' => $dispensasi->id]) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('download-pdf', $dispensasi->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                            <path d="M8 0a.5.5 0 0 1 .5.5v9.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 10.293V.5A.5.5 0 0 1 8 0z"/>
+                                            <path d="M0 12.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h16a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5H0zM5 9a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5z"/>
+                                        </svg>
+                                    </a>
+                                </td>
                                 </tr>
                             @endforeach
                         </tbody>

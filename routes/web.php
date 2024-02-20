@@ -40,6 +40,11 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/pengajuan',[DispensasiController::class, 'store']);
     Route::get('/dashboard-admin/approved/{id}',[DispensasiController::class, 'approved']);
     Route::get('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
+
+    Route::get('/dispensasi/{dispensasi}', [DispensasiController::class, 'show'])->name('dispensasi.show');
+    
+    Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
+
 });
 
 
