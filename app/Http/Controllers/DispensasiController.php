@@ -82,7 +82,7 @@ class DispensasiController extends Controller
      */
     public function store(StoreDispensasiRequest $request)
     {
-            // Mendapatkan pengguna yang sedang terotentikasi
+        // Mendapatkan pengguna yang sedang terotentikasi
         $user = Auth::user();
 
         // Pengecekan apakah pengguna sudah memiliki dispensasi atau tidak
