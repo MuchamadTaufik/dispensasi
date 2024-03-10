@@ -14,10 +14,10 @@ class DashboardController extends Controller
         $dispensasisKeluar = Dispensasi::where('type_id', 2)->where('status_id', 2)->count();
 
         $dispensasisSakit = Dispensasi::where('alasan_id', 1)->where('status_id', 2)->count();
-    $dispensasisIzin = Dispensasi::where('alasan_id', 2)->where('status_id', 2)->count();
+        $dispensasisIzin = Dispensasi::where('alasan_id', 2)->where('status_id', 2)->count();
 
 
-        return view('dashboard-admin.index', [
+        return view('dashboard.index', [
             'users' => User::count(),
             'totalDispensasi' => Dispensasi::where('status_id', 2)->count(),
             'dispensasisMasuk' => $dispensasisMasuk,

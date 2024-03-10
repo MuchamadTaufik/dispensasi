@@ -51,7 +51,7 @@ class DispensasiController extends Controller
             $dispensasisIzin = Dispensasi::where('user_id', $user->id)->where('alasan_id', 'izin')->get();
         }
 
-        return view('dashboard-admin.dispensasi', [
+        return view('dashboard.dispensasi.index', [
             'users' => User::all(),
             'types' => Type::all(),
             'alasans' => Alasan::all(),
@@ -69,7 +69,7 @@ class DispensasiController extends Controller
      */
     public function create()
     {
-        return view('dashboard-admin.pengajuan',[
+        return view('dashboard.pengajuan.index',[
         'users' => User::all(),
         'types' => Type::all(),
         'alasans' => Alasan::all(),
@@ -90,7 +90,8 @@ class DispensasiController extends Controller
 
         // Jika pengguna sudah memiliki dispensasi, redirect kembali dengan pesan error
         if ($existingDispensasi) {
-            return redirect('/pengajuan')->with('error', 'You have already submitted a dispensation.');
+            toast()->error('Pengajuan Gagal', 'Anda sudah melakukan pengajuan');
+            return redirect('/pengajuan')->withInput();
         }
 
         // Jika pengguna belum memiliki dispensasi, lanjutkan dengan validasi dan penyimpanan data
@@ -112,7 +113,8 @@ class DispensasiController extends Controller
 
         Dispensasi::create($validateData);
 
-        return redirect('/')->with('success', 'Dispensasi has been added!');
+        toast()->success('Pengajuan Berhasil', 'Data akan divalidasi');
+        return redirect('/')->withInput();
 
     }
 
@@ -127,7 +129,7 @@ class DispensasiController extends Controller
         // Check if the authenticated user is the owner of the dispensasi or has the role of "guru-piket"
         if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
             $user->role_id === 2) {
-            return view('dashboard-admin.surat', [
+            return view('dashboard.dispensasi.surat.index', [
                 'users' => User::all(),
                 'types' => Type::all(),
                 'alasans' => Alasan::all(),
@@ -137,32 +139,9 @@ class DispensasiController extends Controller
             ]);
         } else {
             // Handle unauthorized access
-            return redirect('/')->with('error', 'Unauthorized access to dispensasi data.');
+            toast()->error('Error', 'Anda tidak memiliki akses');
+            return redirect('/')->withInput();
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Dispensasi $dispensasi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDispensasiRequest $request, Dispensasi $dispensasi)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Dispensasi $dispensasi)
-    {
-        //
     }
 
     // public function approved($id)
@@ -218,12 +197,15 @@ class DispensasiController extends Controller
                 // Mengirim notifikasi setelah dispensasi disetujui
                 $dispensasi->user->notify(new DispensasiApprove($dispensasi));
 
-                return redirect('/')->with('success', 'Dispensasi has been approved successfully.');
+                toast()->success('Berhasil', 'Dispensasi telah disetujui');
+                return redirect('/')->withInput();
             } else {
-                return redirect('/')->with('error', 'You do not have permission to approve dispensasi.');
+                toast()->error('Gagal', 'Anda tidak bisa menyetujui dispensasi');
+                return redirect('/')->withInput();
             }
         } catch (\Exception $e) {
-            return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
+            toast()->error('Gagal', 'Gagal Menyetujui Dispensasi');
+            return redirect('/')->withInput();
         }
     }
 
@@ -250,13 +232,16 @@ class DispensasiController extends Controller
 
                 // Delete the dispensasi data
                 $dispensasi->delete();
-    
-                return redirect('/')->with('success', 'Dispensasi has been rejected.');
+                
+                toast()->success('Berhasil', 'Dispensasi berhasil di tolak');
+                return redirect('/')->withInput();
             } else {
-                return redirect('/')->with('error', 'You do not have permission to reject dispensasi.');
+                toast()->error('Gagal', 'Anda tidak bisa menolak dispensasi');
+                return redirect('/')->withInput();
             }
         } catch (\Exception $e) {
-            return redirect('/')->with('error', 'Failed to reject dispensasi. Error: ' . $e->getMessage());
+            toast()->error('Gagal', 'Gagal menolak dispensasi');
+            return redirect('/')->withInput();
         }
     }
 
@@ -269,7 +254,7 @@ class DispensasiController extends Controller
             $user->role_id === 2) {
             
             $pdf = app(PDF::class);
-            $pdf->loadView('dashboard-admin.surat', [
+            $pdf->loadView('dashboard.dispensasi.surat.index', [
                 'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
                 'dispensasi' => $dispensasi
             ]);
@@ -277,7 +262,8 @@ class DispensasiController extends Controller
             return $pdf->download('dispensasi.pdf');
         } else {
             // Handle unauthorized access
-            return redirect('/')->with('error', 'Unauthorized access to dispensasi data.');
+            toast()->error('Gagal', 'Anda tidak memiliki akses');
+            return redirect('/')->withInput();
         }
     }
 

@@ -10,7 +10,7 @@ class ImportController extends Controller
 {
     public function importForm()
     {
-        return view('import.form');
+        return view('dashboard.users.register.excel');
     }
 
     public function import(Request $request)
@@ -19,8 +19,13 @@ class ImportController extends Controller
             'file' => 'required|mimes:xlsx',
         ]);
 
-        Excel::import(new UserImport, $request->file('file'));
+        try {
+            Excel::import(new UserImport, $request->file('file'));
+            toast()->success('Register Berhasil', 'Data berhasil dimasukan');
+        } catch (\Exception $e) {
+            toast()->error('Register Gagal', 'Harap cek kembali data yang anda masukan');
+        }
 
-        return redirect()->route('import.form')->with('success', 'Data imported successfully!');
+        return redirect()->route('register.excel');
     }
 }

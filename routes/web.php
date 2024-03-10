@@ -29,10 +29,10 @@ Route::group(['middleware'=>'auth'], function(){
         return view('profile.notifikasi');
     })->middleware('auth');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/import-form', [ImportController::class, 'importForm'])->name('import.form');
+    Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
     Route::post('/import', [ImportController::class, 'import'])->name('import');
-    Route::get('register', [RegisterController::class, 'create'])->name('register');
-    Route::post('register', [RegisterController::class, 'store']);
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/users', [LoginController::class, 'ShowUserlist']);
     Route::get('/dispensasi',[DispensasiController::class, 'index']);

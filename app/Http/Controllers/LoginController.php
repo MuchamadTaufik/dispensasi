@@ -11,14 +11,12 @@ class LoginController extends Controller
 {
     public function ShowUserlist(){
         $user = User::all();
-        return view('dashboard-admin.users', compact('user'));
+        return view('dashboard.users.index', compact('user'));
     }
 
     public function index()
     {
-        return view ('auth.login',[
-            'title' => 'Login'
-        ]);
+        return view ('auth.login.index');
     }
 
     public function authenticate(Request $request)
@@ -33,7 +31,8 @@ class LoginController extends Controller
             return redirect()->intended('/');
         }
 
-        return back()->with('loginError', 'Login Failed!');
+        toast()->error('Login Gagal', 'Harap masukan nomor induk dan password yang benar.');
+        return back()->withInput();
     }
 
     public function logout()
