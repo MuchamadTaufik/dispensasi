@@ -21,7 +21,10 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody
+                    @php
+                        $user = $user->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                    @endphp>
                     @foreach ($user as $users)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>

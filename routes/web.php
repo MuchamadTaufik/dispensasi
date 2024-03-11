@@ -24,13 +24,13 @@ Route::post('/login', [LoginController::class, 'authenticate'])->middleware('gue
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/profile', function () {
         return view('profile.index');
-    })->middleware('auth');
+    });
     Route::get('/notifikasi', function () {
-        return view('profile.notifikasi');
-    })->middleware('auth');
+        return view('profile.notifikasi.index');
+    });
     Route::get('/pesan', function () {
-        return view('profile.pesan');
-    })->middleware('auth');
+        return view('profile.pesan.index');
+    });
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
     Route::post('/import', [ImportController::class, 'import'])->name('import');

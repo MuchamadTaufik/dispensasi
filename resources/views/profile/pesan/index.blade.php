@@ -15,16 +15,29 @@
                         <th>Alasan</th>
                         <th>Waktu</th>
                         <th>Keterangan</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse(auth()->user()->notifications->whereIn('type', ['App\Notifications\DispensasiApprove', 'App\Notifications\DispensasiReject']) as $notification)
+                    @php
+                        $notifications = auth()->user()->notifications->whereIn('type', ['App\Notifications\DispensasiApprove', 'App\Notifications\DispensasiReject']);
+                        $notifications = $notifications->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                    @endphp
+
+                    @forelse($notifications as $notification)
                         <tr class="{{ $notification->type == 'App\Notifications\DispensasiApprove' ? 'table-success' : 'table-danger' }}">
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $notification->data['title'] }} {{ $notification->data['messages'] }}</td>
                             <td>{{ $notification->data['alasan'] }}</td>
                             <td>{{ $notification->data['date'] }}</td>
                             <td>{!! $notification->data['surat'] !!}</td>
+                            <td>
+                                <form action="{{ route('admin-product.destroy', $product->id) }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="x-circle"></span></button>
+                                </form> 
+                            </td>
                         </tr>
                     @empty
                         <tr>

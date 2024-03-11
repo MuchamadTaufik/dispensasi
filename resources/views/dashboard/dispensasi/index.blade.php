@@ -29,6 +29,9 @@
                 </thead>
             
                 <tbody>
+                    @php
+                        $dispensasisKeluar = $dispensasisKeluar->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                    @endphp
                     @foreach ($dispensasisKeluar as $dispensasi)
                     <tr>
                         <!-- Populate rows with data (Same as before) -->
@@ -108,7 +111,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                 <thead>
                     <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
                         <th>No</th>
@@ -124,6 +127,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $dispensasisMasuk = $dispensasisMasuk->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                    @endphp
                     @foreach ($dispensasisMasuk as $dispensasi)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
