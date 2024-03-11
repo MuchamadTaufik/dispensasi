@@ -12,13 +12,15 @@ class DispensasiReject extends Notification
     use Queueable;
 
     private $dispensasi;
+    private $pesanReject;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($dispensasi)
+    public function __construct($dispensasi, $pesanReject)
     {
         $this->dispensasi = $dispensasi;
+        $this->pesanReject = $pesanReject;
     }
 
     /**
@@ -50,11 +52,13 @@ class DispensasiReject extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->dispensasi->user->name,
-            // 'type_id' => $this->dispensasi->type->name,
-            // 'alasan_id' => $this->dispensasi->alasan->name,
+            'date' => $this->dispensasi->waktu_persetujuan ? $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s') : null,
             'title' => 'Dispensasi ' .$this->dispensasi->type->name,
-            'messages' => $this->dispensasi->user->name . ' Mohon maaf dispensasi anda ditolak ' ,
+            'name' => $this->dispensasi->user->name,
+            'alasan' => ' ( '.$this->dispensasi->alasan->name .' ) ',
+            'messages' => 'Ditolak',
+            'surat' => $this->pesanReject
+
         ];
     }
 }

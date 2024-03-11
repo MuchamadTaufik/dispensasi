@@ -1,31 +1,35 @@
 @extends('layouts.main')
 
 @section('container')
-    <!-- Tampilkan notifikasi approve dari semua pengguna -->
-    @foreach(\App\Models\User::all() as $user)
-        @foreach($user->notifications->where('type', 'App\Notifications\DispensasiApprove') as $notification)
-            <div class="alert alert-info alert-dismissible fade show mb-3" role="alert">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <strong>{{ $notification->data['title'] }}</strong><br>
-                        {{ $notification->data['messages'] }}
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        @endforeach
-    @endforeach
-
-    <!-- Tampilkan notifikasi reject hanya untuk pengguna terkait -->
-    @foreach(auth()->user()->notifications->where('type', 'App\Notifications\DispensasiReject') as $notification)
-        <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>
-                    <strong>{{ $notification->data['title'] }}</strong><br>
-                    {{ $notification->data['messages'] }}
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Notifikasi</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
+                        <th>Notifikasi</th>
+                        <th>Name</th>
+                        <th>Alasan</th>
+                        <th>Waktu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(\App\Models\User::all() as $user)
+                        @foreach($user->notifications->where('type', 'App\Notifications\DispensasiApprove') as $notification)
+                            <tr class="table-warning">
+                                <td>{{ $notification->data['title'] }}</td>
+                                <td>{{ $notification->data['name'] }}</td>
+                                <td>{{ $notification->data['alasan'] }}</td>
+                                <td>{{ $notification->data['date'] }}</td>
+                            </tr>
+                        @endforeach
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    @endforeach
+    </div>
+</div>
 @endsection

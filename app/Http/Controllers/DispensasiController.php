@@ -84,17 +84,19 @@ class DispensasiController extends Controller
     {
         // Mendapatkan pengguna yang sedang terotentikasi
         $user = Auth::user();
-
-        // Pengecekan apakah pengguna sudah memiliki dispensasi atau tidak
-        $existingDispensasi = Dispensasi::where('user_id', $user->id)->first();
-
-        // Jika pengguna sudah memiliki dispensasi, redirect kembali dengan pesan error
-        if ($existingDispensasi) {
-            toast()->error('Pengajuan Gagal', 'Anda sudah melakukan pengajuan');
+    
+        // Pengecekan apakah pengguna memiliki dispensasi yang masih pending
+        $existingPendingDispensasi = Dispensasi::where('user_id', $user->id)
+            ->where('status_id', 1) // Assuming 1 is the status for pending dispensation
+            ->exists();
+    
+        // Jika pengguna memiliki dispensasi yang masih pending, redirect kembali dengan pesan error
+        if ($existingPendingDispensasi) {
+            toast()->error('Pengajuan Gagal', 'Anda tidak dapat mengajukan dispensasi baru karena masih terdapat dispensasi yang belum diproses.');
             return redirect('/pengajuan')->withInput();
         }
-
-        // Jika pengguna belum memiliki dispensasi, lanjutkan dengan validasi dan penyimpanan data
+    
+        // Jika pengguna tidak memiliki dispensasi yang masih pending, lanjutkan dengan validasi dan penyimpanan data
         $validateData = $request->validate([
             'user_id' => 'required',
             'type_id' => 'required',
@@ -106,17 +108,17 @@ class DispensasiController extends Controller
             'bukti' => 'image|file|max:2048',
             'status_id' => 'nullable'
         ]);
-
+    
         if ($request->file('bukti')) {
             $validateData['bukti'] = $request->file('bukti')->store('dispensasi-images');
         }
-
+    
         Dispensasi::create($validateData);
-
+    
         toast()->success('Pengajuan Berhasil', 'Data akan divalidasi');
         return redirect('/')->withInput();
-
     }
+    
 
     /**
      * Display the specified resource.
@@ -175,7 +177,7 @@ class DispensasiController extends Controller
                 $dispensasi = Dispensasi::find($id);
 
                 // Set waktu persetujuan
-                $waktuPersetujuan = now();
+                $waktuPersetujuan = now()->setTimezone('Asia/Jakarta');
 
                 // Check if the type is keluar
                 if ($dispensasi->type_id == 2) {
@@ -198,7 +200,7 @@ class DispensasiController extends Controller
                 $dispensasi->user->notify(new DispensasiApprove($dispensasi));
 
                 toast()->success('Berhasil', 'Dispensasi telah disetujui');
-                return redirect('/')->withInput();
+                return redirect('/dispensasi')->withInput();
             } else {
                 toast()->error('Gagal', 'Anda tidak bisa menyetujui dispensasi');
                 return redirect('/')->withInput();
@@ -209,7 +211,7 @@ class DispensasiController extends Controller
         }
     }
 
-    public function rejected($id)
+    public function rejected( Request $request, $id)
     {
         try {
             // Check if the authenticated user has the role of "guru-piket"
@@ -227,8 +229,10 @@ class DispensasiController extends Controller
                     Storage::delete($dispensasi->bukti);
                 }
                 
-                // Mengirim notifikasi setelah dispensasi disetujui
-                $dispensasi->user->notify(new DispensasiReject($dispensasi));
+                // Mengirim notifikasi setelah dispensasi ditolak
+                $pesanReject = request('pesan_reject', 'Dispensasi Ditolak');
+
+                $dispensasi->user->notify(new DispensasiReject($dispensasi, $pesanReject));
 
                 // Delete the dispensasi data
                 $dispensasi->delete();
@@ -266,6 +270,7 @@ class DispensasiController extends Controller
             return redirect('/')->withInput();
         }
     }
+
 
     
 }

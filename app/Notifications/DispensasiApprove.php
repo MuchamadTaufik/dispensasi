@@ -51,12 +51,12 @@ class DispensasiApprove extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'user_id' => $this->dispensasi->user->name,
-            // 'type_id' => $this->dispensasi->type->name,
-            // 'alasan_id' => $this->dispensasi->alasan->name,
+            'date' => $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s'),
             'title' => 'Dispensasi ' .$this->dispensasi->type->name,
-            'messages' => $this->dispensasi->user->name . ' Sedang Melakukan Dispensasi, Pada : ' . ($this->dispensasi->waktu_keluar ? $this->dispensasi->waktu_keluar : $this->dispensasi->waktu_masuk) . ' Karena ' . $this->dispensasi->alasan->name,
-
+            'name' => $this->dispensasi->user->name,
+            'alasan' => ' ('.$this->dispensasi->alasan->name .') ',
+            'messages' => 'Diterima',
+            'surat' => '<a href="' . route('download-pdf', $this->dispensasi->id) . '">Download Surat</a>',
         ];
     }
 }

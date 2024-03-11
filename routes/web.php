@@ -28,6 +28,9 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/notifikasi', function () {
         return view('profile.notifikasi');
     })->middleware('auth');
+    Route::get('/pesan', function () {
+        return view('profile.pesan');
+    })->middleware('auth');
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
     Route::post('/import', [ImportController::class, 'import'])->name('import');
@@ -40,6 +43,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/pengajuan',[DispensasiController::class, 'store']);
     Route::get('/dashboard-admin/approved/{id}',[DispensasiController::class, 'approved']);
     Route::get('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
+    Route::post('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
     Route::get('/dispensasi/{dispensasi}', [DispensasiController::class, 'show'])->name('dispensasi.show');
     Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
 

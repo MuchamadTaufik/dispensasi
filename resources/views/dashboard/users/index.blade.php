@@ -12,7 +12,7 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
+                    <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
                         <th>No</th>
                         <th>Name</th>
                         <th>Nomor Induk</th>
@@ -21,16 +21,6 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>No</th>
-                            <th>Name</th>
-                            <th>Nomor Induk</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach ($user as $users)
                             <tr>
