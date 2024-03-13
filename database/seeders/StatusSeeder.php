@@ -24,6 +24,7 @@ class StatusSeeder extends Seeder
             ['name' => 'Pending'],
             ['name' => 'Diterima'],
             ['name' => 'Ditolak'],
+            ['name' => 'Selesai'],
         ];
 
         foreach ($data as $value) {

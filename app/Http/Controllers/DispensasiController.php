@@ -271,6 +271,36 @@ class DispensasiController extends Controller
         }
     }
 
+    public function done(Request $request, $id)
+    {
+        try {
+            // Check if the authenticated user has the role of "guru-piket"
+            if (auth()->user()->role_id === 2) {
+                $dispensasi = Dispensasi::find($id);
 
+                // Check if the dispensasi is already marked as done
+                if ($dispensasi->status_id === 4) { // Assuming 4 is the status for "Done"
+                    toast()->warning('Peringatan', 'Dispensasi sudah selesai.');
+                    return redirect('/dispensasi')->withInput();
+                }
+
+                // Mark the dispensasi as done and save the end time
+                $waktuSelesai = now()->setTimezone('Asia/Jakarta');
+                $dispensasi->update([
+                    'status_id' => 4, // Assuming 4 is the status for "Done"
+                    'waktu_selesai' => $waktuSelesai,
+                ]);
+
+                toast()->success('Berhasil', 'Dispensasi telah selesai.');
+                return redirect('/dispensasi')->withInput();
+            } else {
+                toast()->error('Gagal', 'Anda tidak bisa menyelesaikan dispensasi.');
+                return redirect('/')->withInput();
+            }
+        } catch (\Exception $e) {
+            toast()->error('Gagal', 'Gagal menyelesaikan dispensasi.');
+            return redirect('/')->withInput();
+        }
+    }
     
 }

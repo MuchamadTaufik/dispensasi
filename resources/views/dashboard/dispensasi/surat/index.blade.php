@@ -58,7 +58,7 @@
         <table width="300">
             @if ($dispensasis && count($dispensasis) > 0)
                 @php $dispensasi = $dispensasis[0]; @endphp
-                @if ((auth()->user()->role_id === 2 || auth()->user()->id === $dispensasi->user_id) && $dispensasi->status_id === 2)
+                @if ((auth()->user()->role_id === 2 || auth()->user()->id === $dispensasi->user_id) && $dispensasi->status_id === 4 || $dispensasi->status_id === 2 )
                     <tr>
                         <td>Nama</td>
                         <td>:</td>
@@ -76,7 +76,7 @@
                     </tr>
         
                     {{-- Tampilkan waktu keluar dan waktu kembali untuk izin keluar (ID 2) --}}
-                    @if ($dispensasi->type_id == 2)
+                    @if ($dispensasi->type_id === 2)
                         <tr>
                             <td>Jam Keluar</td>
                             <td>:</td>
@@ -90,7 +90,7 @@
                     @endif
         
                     {{-- Tampilkan waktu masuk untuk izin masuk (ID 1) --}}
-                    @if ($dispensasi->type_id == 1)
+                    @if ($dispensasi->type_id === 1)
                         <tr>
                             <td>Jam Masuk</td>
                             <td>:</td>

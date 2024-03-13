@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->string('bukti');
             $table->timestamp('waktu_persetujuan')->nullable();
+            $table->timestamp('waktu_selesai')->nullable();
             $table->integer('durasi_timer')->nullable();
             $table->timestamps();
         });
