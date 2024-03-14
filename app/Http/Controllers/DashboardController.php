@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\DispensasiAlasanChart;
+use App\Charts\DispensasiChart;
+use App\Charts\DispensasiTypeChart;
 use App\Models\User;
 use App\Models\Dispensasi;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request, DispensasiTypeChart $dispensasiTypeChart, DispensasiAlasanChart $dispensasiAlasanChart, DispensasiChart $dispensasiChart)
     {
-        $dispensasisMasuk = Dispensasi::where('type_id', 1)->where('status_id', 2)->count();
-        $dispensasisKeluar = Dispensasi::where('type_id', 2)->where('status_id', 2)->count();
-
-        $dispensasisSakit = Dispensasi::where('alasan_id', 1)->where('status_id', 2)->count();
-        $dispensasisIzin = Dispensasi::where('alasan_id', 2)->where('status_id', 2)->count();
-
         $dispensasisAktif = Dispensasi::where('type_id', 2)->where('status_id', 2)->count();
         $dispensasisGuru = User::join('dispensasis', 'users.id', '=', 'dispensasis.user_id')
             ->where('users.kelas_id', 1)
@@ -43,8 +40,15 @@ class DashboardController extends Controller
             })
             ->count();
 
+            // Mendapatkan tahun yang dipilih dari permintaan pengguna
+        $selectedYear = $request->input('selectedYear', date('Y'));
+
+        // Mendapatkan daftar tahun untuk opsi dropdown
+        $years = Dispensasi::selectRaw('YEAR(created_at) as year')
+            ->distinct()
+            ->pluck('year');
+
         return view('dashboard.index', [
-            'users' => User::count(),
             'totalDispensasi' => Dispensasi::where(function ($query) {
                 $query->where(function ($innerQuery) {
                     $innerQuery->where('dispensasis.status_id', 4)
@@ -55,13 +59,14 @@ class DashboardController extends Controller
                 });
             })
             ->count(),
-            'dispensasisMasuk' => $dispensasisMasuk,
-            'dispensasisKeluar' => $dispensasisKeluar,
-            'dispensasisSakit' => $dispensasisSakit,
-            'dispensasisIzin' => $dispensasisIzin,
             'dispensasisAktif' => $dispensasisAktif,
             'dispensasisGuru' => $dispensasisGuru,
-            'dispensasisSiswa' => $dispensasisSiswa
+            'dispensasisSiswa' => $dispensasisSiswa,
+
+            'years' => $years, // Mengirim daftar tahun ke tampilan
+            'dispensasiTypeChart' => $dispensasiTypeChart->build($selectedYear),
+            'dispensasiAlasanChart' => $dispensasiAlasanChart->build($selectedYear),
+            'dispensasiChart' => $dispensasiChart->build($selectedYear)
         ]);
     }
 }

@@ -32,7 +32,7 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/pesan', function () {
         return view('profile.pesan.index');
     });
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
     Route::post('/import', [ImportController::class, 'import'])->name('import');
     Route::get('/register', [RegisterController::class, 'create'])->name('register');

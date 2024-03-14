@@ -74,14 +74,12 @@
     </div>
             
     <div class="row">
-
-        <!-- Area Chart -->
-        <div class="col-xl-6 col-lg-6">
+        <!-- Pie Chart -->
+        <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Total Dispensasi Berdasarkan Type</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,30 +87,26 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-header">Pilih Tahun :</div>
+                            @foreach($years as $year)
+                                <a class="dropdown-item" href="{{ route('dashboard.index', ['selectedYear' => $year]) }}">{{ $year }}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myAreaChart"></canvas>
-                    </div>
+                <div class="card-body pt-4 pb-2">
+                    {!! $dispensasiTypeChart->container() !!}
                 </div>
             </div>
         </div>
-
+    
         <!-- Pie Chart -->
-        <div class="col-xl-3 col-lg-3">
+        <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Total Dispensasi Berdasarkan Alasan</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -120,41 +114,29 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-header">Pilih Tahun :</div>
+                            @foreach($years as $year)
+                                <a class="dropdown-item" href="{{ route('dashboard.index', ['selectedYear' => $year]) }}">{{ $year }}</a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart2"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
-                    </div>
+                <div class="card-body pt-4 pb-2">
+                    {!! $dispensasiAlasanChart->container() !!}
                 </div>
             </div>
         </div>
-
-        <!-- Pie Chart -->
-        <div class="col-xl-3 col-lg-3">
+        
+    </div>
+    
+    <div class="row">
+        <!-- Bar Chart -->
+        <div class="col-xl-12 col-lg-12 col-md-12">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Ringkasan Dispensasi per Bulan</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -162,35 +144,33 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-header">Select Year:</div>
+                            <!-- Form untuk memilih tahun -->
+                            <form method="GET" action="{{ route('dashboard.index') }}" class="px-4 py-3">
+                                @csrf
+                                <!-- Dropdown untuk memilih tahun -->
+                                <div class="form-group">
+                                    <select class="form-control" id="selectedYear" name="selectedYear">
+                                        @for ($year = date('Y'); $year >= 2010; $year--)
+                                            <option value="{{ $year }}" {{ $year == request('selectedYear', date('Y')) ? 'selected' : '' }}>{{ $year }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <!-- Tombol untuk submit form -->
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
-                    </div>
+                    <!-- Menampilkan chart menggunakan container yang disediakan -->
+                    {!! $dispensasiChart->container() !!}
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- Content Row -->
     <div class="row">
 
@@ -343,4 +323,13 @@
 
         </div>
     </div>
+
+    <script src="{{ $dispensasiTypeChart->cdn() }}"></script>
+    <script src="{{ $dispensasiAlasanChart->cdn() }}"></script>
+    <script src="{{ $dispensasiChart->cdn() }}"></script>
+
+    {{ $dispensasiTypeChart->script() }}
+    {{ $dispensasiAlasanChart->script() }}
+    {{ $dispensasiChart->script() }}
+
 @endsection
