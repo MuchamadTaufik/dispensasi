@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Charts\DispensasiAlasanChart;
-use App\Charts\DispensasiChart;
-use App\Charts\DispensasiTypeChart;
 use App\Models\User;
 use App\Models\Dispensasi;
 use Illuminate\Http\Request;
+use App\Charts\DispensasiChart;
+use App\Charts\DispensasiTypeChart;
+use Illuminate\Support\Facades\Auth;
+use App\Charts\DispensasiAlasanChart;
 
 class DashboardController extends Controller
 {
@@ -48,6 +49,28 @@ class DashboardController extends Controller
             ->distinct()
             ->pluck('year');
 
+        //dashboard index untuk tabel
+        // Mendapatkan pengguna yang sedang terotentikasi
+        $user = Auth::user();
+
+        // Inisialisasi variabel dispensasisKeluar dan dispensasisMasuk
+        $dispensasisKeluar = null;
+        $dispensasisMasuk = null;
+
+        // Inisialisasi variabel dispensasisSakit dan dispensasisIzin
+        $dispensasisSakit = null;
+        $dispensasisIzin = null;
+
+        // Jika pengguna adalah admin, dapatkan semua data dispensasi
+        if ($user->role_id === 1 || $user->role_id === 2) {
+            $dispensasisKeluar = Dispensasi::where('type_id', 2)->get();
+            $dispensasisMasuk = Dispensasi::where('type_id', 1)->get();
+        } else {
+            // Jika pengguna bukan admin, hanya dapatkan data dispensasi yang terkait dengan pengguna
+            $dispensasisKeluar = Dispensasi::where('user_id', $user->id)->where('type_id', 2)->get();
+            $dispensasisMasuk = Dispensasi::where('user_id', $user->id)->where('type_id', 1)->get();
+        }
+
         return view('dashboard.index', [
             'totalDispensasi' => Dispensasi::where(function ($query) {
                 $query->where(function ($innerQuery) {
@@ -66,7 +89,9 @@ class DashboardController extends Controller
             'years' => $years, // Mengirim daftar tahun ke tampilan
             'dispensasiTypeChart' => $dispensasiTypeChart->build($selectedYear),
             'dispensasiAlasanChart' => $dispensasiAlasanChart->build($selectedYear),
-            'dispensasiChart' => $dispensasiChart->build($selectedYear)
+            'dispensasiChart' => $dispensasiChart->build($selectedYear),
+            'dispensasisKeluar' => $dispensasisKeluar,
+            'dispensasisMasuk' => $dispensasisMasuk
         ]);
     }
 }
