@@ -72,8 +72,8 @@
                             </div>
                             <div>
                                 <div class="small text-gray-500">{{ $notification->data['date'] }}</div>
-                                <span class="font-weight-bold"><strong>{{ $notification->data['title'] }} {{ $notification->data['alasan'] }}</strong><br>
-                                    {{ $notification->data['name'] }}</span>
+                                <span class="font-weight-bold"><strong>{{ $notification->data['title'] }} ({{ $notification->data['alasan'] }})</strong><br>
+                                    {{ $notification->data['name'] }} - {{ $notification->data['kelas'] }}</span>
                             </div>
                         </a>
                     @endforeach

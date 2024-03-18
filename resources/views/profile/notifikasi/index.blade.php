@@ -12,6 +12,7 @@
                     <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
                         <th>Notifikasi</th>
                         <th>Name</th>
+                        <th>Kelas</th>
                         <th>Alasan</th>
                         <th>Waktu</th>
                     </tr>
@@ -29,6 +30,7 @@
                         <tr class="table-warning">
                             <td>{{ $notification->data['title'] }}</td>
                             <td>{{ $notification->data['name'] }}</td>
+                            <td>{{ $notification->data['kelas'] }}</td>
                             <td>{{ $notification->data['alasan'] }}</td>
                             <td>{{ $notification->data['date'] }}</td>
                         </tr>

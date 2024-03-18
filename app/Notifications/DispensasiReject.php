@@ -55,7 +55,8 @@ class DispensasiReject extends Notification
             'date' => $this->dispensasi->waktu_persetujuan ? $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s') : null,
             'title' => 'Dispensasi ' .$this->dispensasi->type->name,
             'name' => $this->dispensasi->user->name,
-            'alasan' => ' ( '.$this->dispensasi->alasan->name .' ) ',
+            'kelas' => $this->dispensasi->user->kelas->name,
+            'alasan' => $this->dispensasi->alasan->name ,
             'messages' => 'Ditolak',
             'surat' => $this->pesanReject
 

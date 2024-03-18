@@ -25,9 +25,20 @@ class DispensasiAlasanChart
     
         // Loop melalui setiap dispensasi dan hitung jumlahnya untuk setiap alasan
         foreach ($dispensasiAlasan as $dispensasi) {
-            if ($dispensasi->alasan_id == 1 && in_array($dispensasi->status_id, [2, 4])) {
+            // Jika alasan_id adalah 1 dan type_id adalah 1 serta status_id adalah 2, tambahkan ke $sakitCount
+            if ($dispensasi->alasan_id == 1 && $dispensasi->type_id == 1 && $dispensasi->status_id == 2) {
                 $sakitCount++;
-            } elseif ($dispensasi->alasan_id == 2 && in_array($dispensasi->status_id, [2, 4])) {
+            }
+            // Jika alasan_id adalah 1 dan type_id adalah 2 serta status_id adalah 4, tambahkan ke $sakitCount
+            elseif ($dispensasi->alasan_id == 1 && $dispensasi->type_id == 2 && $dispensasi->status_id == 4) {
+                $sakitCount++;
+            }
+            // Jika alasan_id adalah 2 dan type_id adalah 1 serta status_id adalah 2, tambahkan ke $izinCount
+            elseif ($dispensasi->alasan_id == 2 && $dispensasi->type_id == 1 && $dispensasi->status_id == 2) {
+                $izinCount++;
+            }
+            // Jika alasan_id adalah 2 dan type_id adalah 2 serta status_id adalah 4, tambahkan ke $izinCount
+            elseif ($dispensasi->alasan_id == 2 && $dispensasi->type_id == 2 && $dispensasi->status_id == 4) {
                 $izinCount++;
             }
         }

@@ -57,9 +57,9 @@ class DashboardController extends Controller
         $dispensasisKeluar = null;
         $dispensasisMasuk = null;
 
-        // Inisialisasi variabel dispensasisSakit dan dispensasisIzin
-        $dispensasisSakit = null;
-        $dispensasisIzin = null;
+        // // Inisialisasi variabel dispensasisSakit dan dispensasisIzin
+        // $dispensasisSakit = null;
+        // $dispensasisIzin = null;
 
         // Jika pengguna adalah admin, dapatkan semua data dispensasi
         if ($user->role_id === 1 || $user->role_id === 2) {

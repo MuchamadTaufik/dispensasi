@@ -101,8 +101,8 @@ class DispensasiController extends Controller
             'user_id' => 'required',
             'type_id' => 'required',
             'waktu_masuk' => 'nullable|date_format:Y-m-d\TH:i',
-            'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i',
-            'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i',
+            'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i|before_or_equal:waktu_kembali',
+            'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i|after_or_equal:waktu_keluar',
             'alasan_id' => 'required',
             'deskripsi' => 'nullable|max:255',
             'bukti' => 'image|file|max:2048',
@@ -146,28 +146,27 @@ class DispensasiController extends Controller
         }
     }
 
-    // public function approved($id)
-    // {
-    //     try {
-    //         // Check if the authenticated user has the role of "guru-piket"
-    //         if (auth()->user()->role_id === 2) {
-    //             // Assuming status_id 2 is for accepted status
-    //             $dispensasi = Dispensasi::find($id);
-    //             $dispensasi->update([
-    //                 'status_id' => 2
-    //             ]);
+    public function detail(Dispensasi $dispensasi)
+    {
+        $user = auth()->user();
 
-    //             // Mengirim notifikasi setelah dispensasi disetujui
-    //             $dispensasi->user->notify(new DispensasiApprove($dispensasi));
-
-    //             return redirect('/')->with('success', 'Dispensasi has been approved successfully.');
-    //         } else {
-    //             return redirect('/')->with('error', 'You do not have permission to approve dispensasi.');
-    //         }
-    //     } catch (\Exception $e) {
-    //         return redirect('/')->with('error', 'Failed to approve dispensasi. Error: ' . $e->getMessage());
-    //     }
-    // }
+        // Check if the authenticated user is the owner of the dispensasi or has the role of "guru-piket"
+        if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
+            $user->role_id === 2) {
+            return view('dashboard.dispensasi.show', [
+                'users' => User::all(),
+                'types' => Type::all(),
+                'alasans' => Alasan::all(),
+                'statuses' => Status::all(),
+                'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
+                'dispensasi' => $dispensasi,
+            ]);
+        } else {
+            // Handle unauthorized access
+            toast()->error('Error', 'Anda tidak memiliki akses');
+            return redirect('/')->withInput();
+        }
+    }
 
     public function approved($id)
     {
@@ -303,4 +302,73 @@ class DispensasiController extends Controller
         }
     }
     
+    public function destroy(Dispensasi $dispensasi)
+    {
+        if($dispensasi->bukti){
+            Storage::delete($dispensasi->bukti);
+        }
+
+        Dispensasi::destroy ($dispensasi->id);
+
+        alert()->success('Success', 'Dispensasi Berhasil dihapus');
+        return redirect('/')->withInput();
+    }
+    
+    public function edit(Dispensasi $dispensasi)
+    { 
+        return view('dashboard.dispensasi.edit',[
+            'dispensasi' => $dispensasi,
+            'users' => User::all(),
+            'types' => Type::all(),
+            'alasans' => Alasan::all(),
+            'statuses' => Status::all(),
+        ]);
+    }
+
+    public function update(UpdateDispensasiRequest $request, Dispensasi $dispensasi)
+    {
+        try {
+            $rules = [
+                'user_id' => 'required',
+                'type_id' => 'required',
+                'waktu_masuk' => 'nullable|date_format:Y-m-d\TH:i',
+                'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i|before_or_equal:waktu_kembali|before_or_equal:waktu_selesai|before_or_equal:waktu_persetujuan',
+                'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i|after_or_equal:waktu_keluar|after_or_equal:waktu_persetujuan',
+                'waktu_selesai' => 'nullable|date|after_or_equal:waktu_keluar|after_or_equal:waktu_persetujuan',
+                'waktu_persetujuan' => 'nullable|date|after_or_equal:waktu_keluar|before_or_equal:waktu_kembali|before_or_equal:waktu_selesai',
+                'alasan_id' => 'required',
+                'deskripsi' => 'nullable|max:255',
+                'bukti' => 'image|file|max:2048',
+                'status_id' => 'nullable'
+            ];
+        
+            $validateData = $request->validate($rules);
+        
+            // Simpan path gambar lama
+            $oldImagePath = $dispensasi->bukti;
+        
+            if ($request->file('bukti')) {
+                // Hapus gambar lama
+                if ($oldImagePath) {
+                    Storage::delete($oldImagePath);
+                }
+        
+                // Simpan gambar baru
+                $validateData['bukti'] = $request->file('bukti')->store('dispensasi-images');
+            } else {
+                // Hapus aturan validasi gambar jika tidak ada gambar baru yang diunggah
+                unset($validateData['bukti']);
+            }
+        
+            $dispensasi->update($validateData);
+        
+            alert()->success('Success', 'Dispensasi Berhasil diubah');
+            return redirect('/')->withInput();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            alert()->error('error', 'Waktu tidak sesuai');
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
 }

@@ -54,8 +54,9 @@ class DispensasiApprove extends Notification
             'date' => $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s'),
             'title' => 'Dispensasi ' .$this->dispensasi->type->name,
             'name' => $this->dispensasi->user->name,
-            'alasan' => ' ('.$this->dispensasi->alasan->name .') ',
-            'messages' => 'Diterima',
+            'kelas' => $this->dispensasi->user->kelas->name,
+            'alasan' => $this->dispensasi->alasan->name ,
+            'messages' => $this->dispensasi->status->name,
             'surat' => '<a href="' . route('download-pdf', $this->dispensasi->id) . '">Download Surat</a>',
         ];
     }

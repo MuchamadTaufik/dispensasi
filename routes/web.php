@@ -47,6 +47,10 @@ Route::group(['middleware'=>'auth'], function(){
     Route::post('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
     Route::get('/dashboard-admin/done/{id}',[DispensasiController::class, 'done']);
     Route::get('/dispensasi/{dispensasi}', [DispensasiController::class, 'show'])->name('dispensasi.show');
+    Route::get('/dispensasi/detail/{dispensasi}', [DispensasiController::class, 'detail'])->name('dispensasi.detail');
+    Route::delete('/dispensasi/delete/{dispensasi}', [DispensasiController::class, 'destroy'])->name('dispensasi.delete');
+    Route::put('/dispensasi/update/{dispensasi}', [DispensasiController::class, 'update'])->name('dispensasi.update');
+    Route::get('/dispensasi/edit/{dispensasi}', [DispensasiController::class, 'edit'])->name('dispensasi.edit');
     Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
 
     Route::delete('/notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');

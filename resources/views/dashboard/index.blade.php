@@ -189,6 +189,7 @@
                             <th>Alasan Dispensasi</th>
                             <th>Waktu Keluar</th>
                             <th>Batas Waktu Kembali</th>
+                            <th>Waktu Persetujuan</th>
                             <th>Waktu Selesai</th>
                             <th>Action</th>
                         </tr>
@@ -196,7 +197,7 @@
                 
                     <tbody>
                         @php
-                            $dispensasisKeluar = $dispensasisKeluar->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                            $dispensasisKeluar = $dispensasisKeluar->where('status_id', 4)->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
                         @endphp
                         @foreach ($dispensasisKeluar as $dispensasi)
                         <tr>
@@ -209,8 +210,17 @@
                             <td>{{ $dispensasi->alasan->name }}</td>
                             <td>{{ $dispensasi->waktu_keluar }}</td>
                             <td>{{ $dispensasi->waktu_kembali }}</td>
+                            <td>{{ $dispensasi->waktu_persetujuan }}</td>
                             <td class="waktu-selesai">{{ $dispensasi->waktu_selesai }}</td>
-                            <td>Show | Delete</td>
+                            <td>
+                                <a href="{{ route('dispensasi.detail', $dispensasi->id) }}" class="badge bg-success border-0"><span data-feather="eye"></span></a>
+                                <a href="{{ route('dispensasi.edit', $dispensasi->id) }}" class="badge bg-warning border-0"><span data-feather="edit"></span></a>
+                                <form action="{{ route('dispensasi.delete', $dispensasi->id) }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -235,12 +245,13 @@
                             <th>Type Dispensasi</th>
                             <th>Alasan Dispensasi</th>
                             <th>Waktu Masuk</th>
+                            <th>Waktu Persetujuan</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
-                            $dispensasisMasuk = $dispensasisMasuk->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                            $dispensasisMasuk = $dispensasisMasuk->where('status_id', 2)->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
                         @endphp
                         @foreach ($dispensasisMasuk as $dispensasi)
                             <tr>
@@ -251,7 +262,16 @@
                                 <td>{{ $dispensasi->type->name }}</td>
                                 <td>{{ $dispensasi->alasan->name }}</td>
                                 <td>{{ $dispensasi->waktu_masuk }}</td>
-                                <td>Show | Delete</td>
+                                <td>{{ $dispensasi->waktu_persetujuan }}</td>
+                                <td>
+                                    <a href="{{ route('dispensasi.detail', $dispensasi->id) }}" class="badge bg-success border-0"><span data-feather="eye"></span></a>
+                                    <a href="{{ route('dispensasi.edit', $dispensasi->id) }}" class="badge bg-warning border-0"><span data-feather="edit"></span></a>
+                                    <form action="{{ route('dispensasi.delete', $dispensasi->id) }}" method="post" class="d-inline">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
