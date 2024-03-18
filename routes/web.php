@@ -54,6 +54,9 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
 
     Route::delete('/notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
+
+    Route::get('/download-laporan-masuk', [DashboardController::class, 'laporanDispensasiMasuk'])->name('dashboard.download.laporan.masuk');
+    Route::get('/download-laporan-keluar', [DashboardController::class, 'laporanDispensasiKeluar'])->name('dashboard.download.laporan.keluar');
 });
 
 

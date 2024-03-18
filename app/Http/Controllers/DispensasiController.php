@@ -101,8 +101,8 @@ class DispensasiController extends Controller
             'user_id' => 'required',
             'type_id' => 'required',
             'waktu_masuk' => 'nullable|date_format:Y-m-d\TH:i',
-            'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i|before_or_equal:waktu_kembali',
-            'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i|after_or_equal:waktu_keluar',
+            'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i',
+            'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i',
             'alasan_id' => 'required',
             'deskripsi' => 'nullable|max:255',
             'bukti' => 'image|file|max:2048',
@@ -371,4 +371,5 @@ class DispensasiController extends Controller
             dd($e->getMessage());
         }
     }
+    
 }
