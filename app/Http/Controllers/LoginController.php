@@ -45,30 +45,32 @@ class LoginController extends Controller
         return redirect('/login');
     }
 
-    // public function changePassword()
-    // {
-    //     return view('auth.change-password');
-    // }
+    public function changePassword()
+    {
+        return view('auth.change-password');
+    }
 
-    // public function processChangePassword(Request &$request)
-    // {
-    //     if(!Hash::check($request->old_password, auth()->user()->passwrod)) {
-    //         return back()->with('error', 'old password not match with your current password');
-    //     }
 
-    //     if($request->new_password != $request->repeat_password) {
-    //         return back()->with('error', 'new password and repeat password not match');
-    //     }
+    public function processChangePassword(Request $request)
+    {
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            toast()->error('Gagal', 'Password lama tidak cocok dengan password saat ini');
+            return back()->withInput();
+        }
+
+        if ($request->new_password != $request->repeat_password) {
+            toast()->error('Gagal', 'Password baru dan ulangi password tidak cocok');
+            return back()->withInput();
+        }
         
-    //     auth()->user()->update([
-    //         'password' => Hash::make($request->new_password)
-    //     ]);
+        $user = auth()->user();
+        $user->password = Hash::make($request->new_password);
+        /** @var \App\Models\User $user **/
+        $user->save();
 
-    //     // $user = auth()->user();
-    //     // $user->password = Hash::make($request->new_password);
-    //     // /** @var \App\Models\User $user **/
-    //     // $user->save();
-    // }
+        toast()->success('Berhasil', 'Password berhasil diubah');
+        return redirect()->back();
+    }
 
     
 }

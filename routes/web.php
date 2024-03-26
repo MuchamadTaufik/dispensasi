@@ -23,6 +23,9 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
 
 Route::group(['middleware'=>'auth'], function(){
+    Route::get('/change-password',[LoginController::class, 'changePassword']);
+    Route::post('/change-password', [LoginController::class, 'processChangePassword'])->name('change-password');
+
     Route::get('/profile', function () {
         return view('profile.index');
     });
@@ -58,7 +61,3 @@ Route::group(['middleware'=>'auth'], function(){
     Route::get('/download-laporan-masuk', [DashboardController::class, 'laporanDispensasiMasuk'])->name('dashboard.download.laporan.masuk');
     Route::get('/download-laporan-keluar', [DashboardController::class, 'laporanDispensasiKeluar'])->name('dashboard.download.laporan.keluar');
 });
-
-
-// Route::get('/change-password',[LoginController::class, 'changePassword'])->middleware('auth');
-// Route::post('/change-password', [LoginController::class, 'processChangePassword']);
