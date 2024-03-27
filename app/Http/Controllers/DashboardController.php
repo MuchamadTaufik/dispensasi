@@ -111,10 +111,15 @@ class DashboardController extends Controller
 
     public function laporanDispensasiKeluar(Request $request)
     {
+        $user = Auth::user();
         $selectedYear = $request->input('selectedYear', date('Y'));
 
         // Mendapatkan data dispensasi keluar
-        $dispensasisKeluar = Dispensasi::whereYear('created_at', $selectedYear)->where('status_id', 4)->orderByDesc('created_at')->get();
+        if( $user->role_id === 2 || $user->role_id === 1) {
+            $dispensasisKeluar = Dispensasi::whereYear('created_at', $selectedYear)->where('status_id', 4)->orderByDesc('created_at')->get();
+        } else {
+            $dispensasisKeluar = Dispensasi::whereYear('created_at', $selectedYear)->where('user_id', $user->id )->where('status_id', 4)->orderByDesc('created_at')->get();
+        }
 
         // Menghasilkan laporan PDF untuk dispensasi keluar
         $pdfDispensasiKeluar = $this->generatePDF($dispensasisKeluar, 'dispensasi_keluar', $selectedYear);
@@ -124,10 +129,15 @@ class DashboardController extends Controller
 
     public function laporanDispensasiMasuk(Request $request)
     {
+        $user = Auth::user();
         $selectedYear = $request->input('selectedYear', date('Y'));
 
         // Mendapatkan data dispensasi masuk
-        $dispensasisMasuk = Dispensasi::whereYear('created_at', $selectedYear)->where('status_id', 2)->orderByDesc('created_at')->get();
+        if( $user->role_id === 2 || $user->role_id === 1 ) {
+            $dispensasisMasuk = Dispensasi::whereYear('created_at', $selectedYear)->where('status_id', 2)->orderByDesc('created_at')->get();
+        } else {
+            $dispensasisMasuk = Dispensasi::whereYear('created_at', $selectedYear)->where('user_id', $user->id )->where('status_id', 2)->orderByDesc('created_at')->get();
+        }
 
         // Menghasilkan laporan PDF untuk dispensasi masuk
         $pdfDispensasiMasuk = $this->generatePDF($dispensasisMasuk, 'dispensasi_masuk', $selectedYear);

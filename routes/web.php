@@ -25,7 +25,6 @@ Route::post('/login', [LoginController::class, 'authenticate'])->middleware('gue
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/change-password',[LoginController::class, 'changePassword']);
     Route::post('/change-password', [LoginController::class, 'processChangePassword'])->name('change-password');
-
     Route::get('/profile', function () {
         return view('profile.index');
     });
@@ -36,15 +35,17 @@ Route::group(['middleware'=>'auth'], function(){
         return view('profile.pesan.index');
     });
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
-    Route::post('/import', [ImportController::class, 'import'])->name('import');
-    Route::get('/register', [RegisterController::class, 'create'])->name('register');
-    Route::post('/register', [RegisterController::class, 'store']);
     Route::post('/logout', [LoginController::class, 'logout']);
-    Route::get('/users', [LoginController::class, 'ShowUserlist']);
-    Route::get('/dispensasi',[DispensasiController::class, 'index']);
     Route::get('/pengajuan',[DispensasiController::class, 'create']);
     Route::post('/pengajuan',[DispensasiController::class, 'store']);
+    Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
+    Route::delete('/notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
+    Route::get('/download-laporan-masuk', [DashboardController::class, 'laporanDispensasiMasuk'])->name('dashboard.download.laporan.masuk');
+    Route::get('/download-laporan-keluar', [DashboardController::class, 'laporanDispensasiKeluar'])->name('dashboard.download.laporan.keluar');
+});
+
+Route::group(['middleware'=>'guru.piket'], function(){
+    Route::get('/dispensasi',[DispensasiController::class, 'index']);
     Route::get('/dashboard-admin/approved/{id}',[DispensasiController::class, 'approved']);
     Route::get('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
     Route::post('/dashboard-admin/rejected/{id}',[DispensasiController::class, 'rejected']);
@@ -54,10 +55,12 @@ Route::group(['middleware'=>'auth'], function(){
     Route::delete('/dispensasi/delete/{dispensasi}', [DispensasiController::class, 'destroy'])->name('dispensasi.delete');
     Route::put('/dispensasi/update/{dispensasi}', [DispensasiController::class, 'update'])->name('dispensasi.update');
     Route::get('/dispensasi/edit/{dispensasi}', [DispensasiController::class, 'edit'])->name('dispensasi.edit');
-    Route::get('/download-pdf/{dispensasi}', [DispensasiController::class, 'downloadPdf'])->name('download-pdf');
+});
 
-    Route::delete('/notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
-
-    Route::get('/download-laporan-masuk', [DashboardController::class, 'laporanDispensasiMasuk'])->name('dashboard.download.laporan.masuk');
-    Route::get('/download-laporan-keluar', [DashboardController::class, 'laporanDispensasiKeluar'])->name('dashboard.download.laporan.keluar');
+Route::group(['middleware'=>'admin'], function(){
+    Route::get('/import-form', [ImportController::class, 'importForm'])->name('register.excel');
+    Route::post('/import', [ImportController::class, 'import'])->name('import');
+    Route::get('/register', [RegisterController::class, 'create'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/users', [LoginController::class, 'ShowUserlist']);
 });

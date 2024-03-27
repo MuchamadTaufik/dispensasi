@@ -17,16 +17,24 @@
         </a>
     </li>
 
+    @can('guru-piket', 'admin')
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">
+            Data
+        </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/dispensasi">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Dispensasi</span>
+            </a>
+        </li>
+    @endcan
+
+    @can('admin')
     <hr class="sidebar-divider">
-    <div class="sidebar-heading">
-        Data
-    </div>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="/dispensasi">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Dispensasi</span>
-        </a>
-    </li>
+        <div class="sidebar-heading">
+            Data
+        </div>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
             aria-expanded="true" aria-controls="collapseUtilities">
@@ -43,6 +51,7 @@
             </div>
         </div>
     </li>
+    @endcan
 
     <hr class="sidebar-divider d-none d-md-block">
     <div class="text-center d-none d-md-inline">

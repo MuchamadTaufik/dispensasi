@@ -36,7 +36,7 @@ class DispensasiController extends Controller
         $dispensasisIzin = null;
 
         // Jika pengguna adalah admin, dapatkan semua data dispensasi
-        if ($user->role_id === 1 || $user->role_id === 2) {
+        if ( $user->role_id === 2) {
             $dispensasisKeluar = Dispensasi::where('type_id', 2)->get();
             $dispensasisMasuk = Dispensasi::where('type_id', 1)->get();
 
