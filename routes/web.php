@@ -63,4 +63,7 @@ Route::group(['middleware'=>'admin'], function(){
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
     Route::get('/users', [LoginController::class, 'ShowUserlist']);
+    Route::get('/users/edit/{user}', [RegisterController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/delete/{user}', [RegisterController::class, 'destroy'])->name('users.delete');
+    Route::put('/users/update/{user}', [RegisterController::class, 'update'])->name('users.update');
 });

@@ -2,7 +2,6 @@
 
 @section('container')
 
-<h1 class="h3 mb-2 text-gray-800">Tabel Pengguna</h1>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -16,6 +15,7 @@
                         <th>No</th>
                         <th>Name</th>
                         <th>Nomor Induk</th>
+                        <th>Kelas</th>
                         <th>Email</th>
                         <th>Role</th>
                         <th>Action</th>
@@ -30,9 +30,17 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $users->name }}</td>
                                 <td>{{ $users->nomor_induk }}</td>
+                                <td>{{ $users->kelas->name }}</td>
                                 <td>{{ $users->email }}</td>
                                 <td>{{ $users->role->name }}</td>
-                                <td>Delete</td>
+                                <td>
+                                    <a href="{{ route('users.edit', $users->id) }}" class="badge bg-warning border-0"><span data-feather="edit"></span></a>
+                                    <form action="{{ route('users.delete', $users->id) }}" method="post" class="d-inline">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
+                                    </form>
+                                </td>
                             </tr>
                     @endforeach
                 </tbody>
