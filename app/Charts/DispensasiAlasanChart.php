@@ -44,13 +44,13 @@ class DispensasiAlasanChart
         }
     
         // Buat array data untuk chart
-        $data = [$sakitCount, $izinCount];
-        $labels = ['Alasan Sakit', 'Alasan Izin'];
+        $data = [$izinCount, $sakitCount];
+        $labels = ['Dispensasi dengan Alasan Izin', 'Dispensasi dengan Alasan Sakit'];
     
         // Buat dan kembalikan objek chart dengan data yang telah disiapkan
         return $this->chart->pieChart()
-            ->setTitle('Alasan Dispensasi')
-            ->setSubtitle($selectedYear)
+            // ->setTitle('Alasan Dispensasi')
+            // ->setSubtitle($selectedYear)
             ->addData($data)
             ->setLabels($labels);
     }

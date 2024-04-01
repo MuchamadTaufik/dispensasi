@@ -124,11 +124,11 @@ class DispensasiChart
 
         // Membuat chart
         $chart = $this->chart->barChart()
-            ->setTitle('Dispensasi Masuk dan Keluar')
-            ->setSubtitle($selectedYear) // Menggunakan tahun yang dipilih sebagai subtitle
+            // ->setTitle('Dispensasi Masuk dan Keluar')
+            // ->setSubtitle($selectedYear) // Menggunakan tahun yang dipilih sebagai subtitle
             ->setXAxis($labels)
-            ->addData('Dispensasi Masuk', $data1)
-            ->addData('Dispensasi Keluar', $data2);
+            ->addData('Dispensasi Izin Masuk ke Sekolah', $data1)
+            ->addData('Dispensasi Izin Pulang Sekolah', $data2);
 
         return $chart;
     }

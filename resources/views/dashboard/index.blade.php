@@ -29,7 +29,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Total Dispensasi Guru</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $dispensasisGuru }} User</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $dispensasisGuru }} Guru</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -45,7 +45,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Total Dispensasi Siswa</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $dispensasisSiswa }} User</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $dispensasisSiswa }} Siswa</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -78,7 +78,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Total Dispensasi Berdasarkan Type</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Dispensasi Berdasarkan Type ({{ $selectedYear }})</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -105,7 +105,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Total Dispensasi Berdasarkan Alasan</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Dispensasi Berdasarkan Alasan ({{ $selectedYear }})</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -135,7 +135,7 @@
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Ringkasan Dispensasi</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Ringkasan Dispensasi ({{ $selectedYear }})</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -163,7 +163,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi keluar Tahun {{ $selectedYear }}</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Izin Pulang Sekolah ({{ $selectedYear }})</h6>
             <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -179,7 +179,7 @@
             </div>
         </div>
         <div class="card-body">
-            <a href="{{ route('dashboard.download.laporan.keluar', ['selectedYear' => $selectedYear]) }}" class="btn btn-success float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
+            <a href="{{ route('dashboard.download.laporan.keluar', ['selectedYear' => $selectedYear]) }}" class="btn btn-warning float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -188,8 +188,8 @@
                             <th>Nomor Induk</th>
                             <th>Nama</th>
                             <th>Kelas</th>
-                            <th>Type Dispensasi</th>
-                            <th>Alasan Dispensasi</th>
+                            <th>Type</th>
+                            <th>Alasan</th>
                             <th>Waktu Keluar</th>
                             <th>Batas Waktu Kembali</th>
                             <th>Waktu Persetujuan</th>
@@ -237,7 +237,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Masuk Tahun{{ $selectedYear }}</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Izin Masuk ke Sekolah ({{ $selectedYear }})</h6>
             <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -253,7 +253,7 @@
             </div>
         </div>
         <div class="card-body">
-            <a href="{{ route('dashboard.download.laporan.masuk', ['selectedYear' => $selectedYear]) }}" class="btn btn-success float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
+            <a href="{{ route('dashboard.download.laporan.masuk', ['selectedYear' => $selectedYear]) }}" class="btn btn-warning float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
                     <thead>
@@ -262,8 +262,8 @@
                             <th>Nomor Induk</th>
                             <th>Nama</th>
                             <th>Kelas</th>
-                            <th>Type Dispensasi</th>
-                            <th>Alasan Dispensasi</th>
+                            <th>Type</th>
+                            <th>Alasan</th>
                             <th>Waktu Masuk</th>
                             <th>Waktu Persetujuan</th>
                             @can('guru-piket')

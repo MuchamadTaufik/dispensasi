@@ -13,7 +13,7 @@
             <input class="form-control form-control-user" id="repeatPassword" type="password" name="repeat_password" autofocus placeholder="Masukan Kembali Password Baru...">
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Change</button>
+            <button type="submit" class="btn btn-primary">Ubah</button>
         </div>
     </form>
 @endsection

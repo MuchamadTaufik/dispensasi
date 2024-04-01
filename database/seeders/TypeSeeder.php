@@ -20,8 +20,8 @@ class TypeSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $data = [
-            ['name' => 'Izin Masuk'],
-            ['name' => 'Izin Keluar'],
+            ['name' => 'Dispensasi Izin Masuk ke Sekolah'],
+            ['name' => 'Dispensasi Izin Pulang Sekolah'],
         ];
 
         foreach ($data as $value) {

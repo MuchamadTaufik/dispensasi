@@ -52,7 +52,7 @@ class DispensasiApprove extends Notification
     {
         return [
             'date' => $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s'),
-            'title' => 'Dispensasi ' .$this->dispensasi->type->name,
+            'title' => $this->dispensasi->type->name,
             'name' => $this->dispensasi->user->name,
             'kelas' => $this->dispensasi->user->kelas->name,
             'alasan' => $this->dispensasi->alasan->name ,

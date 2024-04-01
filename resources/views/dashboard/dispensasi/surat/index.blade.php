@@ -99,7 +99,7 @@
                     @endif
         
                     <tr>
-                        <td>Type Dispensasi</td>
+                        <td>Type</td>
                         <td>:</td>
                         <td>{{ $dispensasi->type->name }}</td>
                     </tr>

@@ -23,7 +23,7 @@
 <body>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Data Dispensasi keluar MAN 2 Kota Bandung pada Tahun ({{ $selectedYear }})</h6>
+            <h6 class="m-0 font-weight-bold">Data Dispensasi Izin Pulang Sekolah, pada Tahun ({{ $selectedYear }})</h6>
         </div>
         <div class="card-body">
             <table class="table table-bordered" id="dataTable">

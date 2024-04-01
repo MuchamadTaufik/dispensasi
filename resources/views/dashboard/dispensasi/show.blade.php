@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title mb-0">Dispensasi: {{ $dispensasi->type->name }}</h5>
+        <h5 class="card-title mb-0">{{ $dispensasi->type->name }}</h5>
     </div>
     <div class="card-body">
         <p class="card-text"><strong>Nomor Induk :</strong> <span class="data">{{ $dispensasi->user->nomor_induk }}</span></p>

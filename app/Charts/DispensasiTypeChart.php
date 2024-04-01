@@ -33,11 +33,11 @@ class DispensasiTypeChart
 
         // Buat array data untuk chart
         $data = [$masukCount, $keluarCount];
-        $labels = ['Dispensasi Masuk', 'Dispensasi Keluar'];
+        $labels = ['Dispensasi Izin Masuk ke Sekolah', 'Dispensasi Izin Pulang Sekolah'];
 
         return $this->chart->pieChart()
-            ->setTitle('Type Dispensasi')
-            ->setSubtitle($selectedYear)
+            // ->setTitle('Type Dispensasi')
+            // ->setSubtitle($selectedYear)
             ->addData($data)
             ->setLabels($labels);
     }

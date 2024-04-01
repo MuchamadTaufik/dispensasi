@@ -5,7 +5,7 @@
         @method('put')
         @csrf
         <div class="mb-2">
-            <label for="type_id" class="form-label">Tipe Dispensasi</label>
+            <label for="type_id" class="form-label">Type</label>
             <select class="form-control" name="type_id" id="type_id" disabled>
                 <option value="" @if(old('type_id') === null) selected @endif>-- Pilih Tipe Dispensasi --</option>
                 @foreach ($types as $type)
@@ -79,7 +79,7 @@
             </div>
         @endif
         <div class="mb-2">
-            <label for="alasan_id" class="form-label">Alasan Dispensasi</label>
+            <label for="alasan_id" class="form-label">Alasan</label>
             <select class="form-control" name="alasan_id" id="alasan_id" required>
                 <option value="" @if(old('type_id') === null) selected @endif>-- Pilih Alasan Dispensasi --</option>
                 @foreach ($alasans as $alasan)
