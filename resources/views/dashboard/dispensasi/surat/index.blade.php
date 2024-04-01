@@ -60,6 +60,11 @@
                 @php $dispensasi = $dispensasis[0]; @endphp
                 @if ((auth()->user()->role_id === 2 || auth()->user()->id === $dispensasi->user_id) && $dispensasi->status_id === 4 || $dispensasi->status_id === 2 )
                     <tr>
+                        <td>Nomor Induk</td>
+                        <td>:</td>
+                        <td>{{ $dispensasi->user->nomor_induk }}</td>
+                    </tr>
+                    <tr>
                         <td>Nama</td>
                         <td>:</td>
                         <td>{{ $dispensasi->user->name }}</td>
@@ -78,12 +83,12 @@
                     {{-- Tampilkan waktu keluar dan waktu kembali untuk izin keluar (ID 2) --}}
                     @if ($dispensasi->type_id === 2)
                         <tr>
-                            <td>Jam Keluar</td>
+                            <td>Waktu Keluar</td>
                             <td>:</td>
                             <td>{{ $dispensasi->waktu_keluar }}</td>
                         </tr>
                         <tr>
-                            <td>Jam Kembali</td>
+                            <td>Waktu Kembali</td>
                             <td>:</td>
                             <td>{{ $dispensasi->waktu_kembali }}</td>
                         </tr>
@@ -92,7 +97,7 @@
                     {{-- Tampilkan waktu masuk untuk izin masuk (ID 1) --}}
                     @if ($dispensasi->type_id === 1)
                         <tr>
-                            <td>Jam Masuk</td>
+                            <td>Waktu Masuk</td>
                             <td>:</td>
                             <td>{{ $dispensasi->waktu_masuk }}</td>
                         </tr>

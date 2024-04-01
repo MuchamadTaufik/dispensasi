@@ -50,8 +50,22 @@ class DispensasiApprove extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        // Check if waktu_persetujuan is not null
+        if ($this->dispensasi->waktu_persetujuan) {
+            // Set variable date based on type_id
+            $date = ($this->dispensasi->type_id === 1) ? $this->dispensasi->waktu_masuk : $this->dispensasi->waktu_keluar;
+            
+            // Convert $date to DateTime object if it's a string
+            if (is_string($date)) {
+                $date = new \DateTime($date);
+            }
+        } else {
+            // If waktu_persetujuan is null, set date to null
+            $date = null;
+        }
+
         return [
-            'date' => $this->dispensasi->waktu_persetujuan->format('Y-m-d H:i:s'),
+            'date' => $date ? $date->format('Y-m-d H:i:s') : null,
             'title' => $this->dispensasi->type->name,
             'name' => $this->dispensasi->user->name,
             'kelas' => $this->dispensasi->user->kelas->name,

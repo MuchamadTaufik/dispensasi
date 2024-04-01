@@ -160,81 +160,6 @@
     </div>
     @endcan
 
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Izin Pulang Sekolah ({{ $selectedYear }})</h6>
-            <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                    aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">Pilih Tahun :</div>
-                    @foreach($years as $year)
-                        <a class="dropdown-item" href="{{ route('dashboard.index', ['selectedYear' => $year]) }}">{{ $year }}</a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <a href="{{ route('dashboard.download.laporan.keluar', ['selectedYear' => $selectedYear]) }}" class="btn btn-warning float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
-                            <th>No</th>
-                            <th>Nomor Induk</th>
-                            <th>Nama</th>
-                            <th>Kelas</th>
-                            <th>Type</th>
-                            <th>Alasan</th>
-                            <th>Waktu Keluar</th>
-                            <th>Batas Waktu Kembali</th>
-                            <th>Waktu Persetujuan</th>
-                            <th>Waktu Selesai</th>
-                            @can('guru-piket')
-                                <th>Action</th>
-                            @endcan
-                        </tr>
-                    </thead>
-                
-                    <tbody>
-                        @php
-                            $dispensasisKeluar = $dispensasisKeluar->where('status_id', 4)->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
-                        @endphp
-                        @foreach ($dispensasisKeluar as $dispensasi)
-                        <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>{{ $dispensasi->user->nomor_induk }}</td>
-                            <td>{{ $dispensasi->user->name }}</td>
-                            <td>{{ $dispensasi->user->kelas->name }}</td>
-                            <td>{{ $dispensasi->type->name }}</td>
-                            <td>{{ $dispensasi->alasan->name }}</td>
-                            <td>{{ $dispensasi->waktu_keluar }}</td>
-                            <td>{{ $dispensasi->waktu_kembali }}</td>
-                            <td>{{ $dispensasi->waktu_persetujuan }}</td>
-                            <td class="waktu-selesai">{{ $dispensasi->waktu_selesai }}</td>
-                            @can('guru-piket')
-                            <td>
-                                <a href="{{ route('dispensasi.detail', $dispensasi->id) }}" class="badge bg-success border-0"><span data-feather="eye"></span></a>
-                                <a href="{{ route('dispensasi.edit', $dispensasi->id) }}" class="badge bg-warning border-0"><span data-feather="edit"></span></a>
-                                <form action="{{ route('dispensasi.delete', $dispensasi->id) }}" method="post" class="d-inline">
-                                    @method('delete')
-                                    @csrf
-                                    <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
-                                </form>
-                            </td>
-                            @endcan
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Izin Masuk ke Sekolah ({{ $selectedYear }})</h6>
@@ -304,6 +229,81 @@
         </div>
     </div>
 
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Data Dispensasi Izin Pulang Sekolah ({{ $selectedYear }})</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Pilih Tahun :</div>
+                    @foreach($years as $year)
+                        <a class="dropdown-item" href="{{ route('dashboard.index', ['selectedYear' => $year]) }}">{{ $year }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <a href="{{ route('dashboard.download.laporan.keluar', ['selectedYear' => $selectedYear]) }}" class="btn btn-warning float-right mb-4"><span data-feather="download"></span> Unduh Laporan</a>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
+                            <th>No</th>
+                            <th>Nomor Induk</th>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Type</th>
+                            <th>Alasan</th>
+                            <th>Waktu Keluar</th>
+                            <th>Batas Waktu Kembali</th>
+                            <th>Waktu Persetujuan</th>
+                            <th>Waktu Selesai</th>
+                            @can('guru-piket')
+                                <th>Action</th>
+                            @endcan
+                        </tr>
+                    </thead>
+                
+                    <tbody>
+                        @php
+                            $dispensasisKeluar = $dispensasisKeluar->where('status_id', 4)->sortByDesc('created_at'); // Mengurutkan notifikasi berdasarkan waktu terbaru
+                        @endphp
+                        @foreach ($dispensasisKeluar as $dispensasi)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $dispensasi->user->nomor_induk }}</td>
+                            <td>{{ $dispensasi->user->name }}</td>
+                            <td>{{ $dispensasi->user->kelas->name }}</td>
+                            <td>{{ $dispensasi->type->name }}</td>
+                            <td>{{ $dispensasi->alasan->name }}</td>
+                            <td>{{ $dispensasi->waktu_keluar }}</td>
+                            <td class="waktu-kembali">{{ $dispensasi->waktu_kembali }}</td>
+                            <td>{{ $dispensasi->waktu_persetujuan }}</td>
+                            <td class="waktu-selesai">{{ $dispensasi->waktu_selesai }}</td>
+                            @can('guru-piket')
+                            <td>
+                                <a href="{{ route('dispensasi.detail', $dispensasi->id) }}" class="badge bg-success border-0"><span data-feather="eye"></span></a>
+                                <a href="{{ route('dispensasi.edit', $dispensasi->id) }}" class="badge bg-warning border-0"><span data-feather="edit"></span></a>
+                                <form action="{{ route('dispensasi.delete', $dispensasi->id) }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><span data-feather="trash-2"></span></button>
+                                </form>
+                            </td>
+                            @endcan
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <script src="{{ $dispensasiTypeChart->cdn() }}"></script>
     <script src="{{ $dispensasiAlasanChart->cdn() }}"></script>
     <script src="{{ $dispensasiChart->cdn() }}"></script>
@@ -313,16 +313,19 @@
     {{ $dispensasiChart->script() }}
 
     <script>
-        // Iterate over each cell in the "Waktu Selesai" column
-        document.querySelectorAll("#dataTable tbody tr .waktu-selesai").forEach(cell => {
-            // Get the time strings
-            let waktuKembaliStr = cell.previousElementSibling.innerText; // Get the "Batas Waktu Kembali" value from the previous cell
-            let waktuSelesaiStr = cell.innerText;
-
+        // Iterate over each row in the table
+        document.querySelectorAll("#dataTable tbody tr").forEach(row => {
+            // Get the values of "Waktu Kembali" and "Waktu Selesai" columns
+            let waktuKembaliStr = row.querySelector(".waktu-kembali").innerText;
+            let waktuSelesaiStr = row.querySelector(".waktu-selesai").innerText;
+    
             // Parse the time strings into Date objects
             let waktuKembali = new Date(waktuKembaliStr);
             let waktuSelesai = new Date(waktuSelesaiStr);
-
+    
+            // Get the cell in the "Waktu Selesai" column
+            let cell = row.querySelector(".waktu-selesai");
+    
             // Check if waktuSelesai is greater than waktuKembali
             if (waktuSelesai > waktuKembali) {
                 // If it is, change the background color of the cell to red
@@ -333,5 +336,6 @@
             }
         });
     </script>
+    
 
 @endsection

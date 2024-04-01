@@ -1,6 +1,9 @@
 @extends('layouts.main')
 
 @section('container')
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Pengajuan Dispensasi</h1>
+    </div>
     <form action="/pengajuan" method="POST" class="mt-3" enctype="multipart/form-data">
         @csrf
         <div class="mb-2">
@@ -78,6 +81,53 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <div class="card shadow mb-4 mt-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                    @foreach ($dispensasis as $dispensasi)
+                        @if (auth()->user()->id === $dispensasi->user_id && ($dispensasi->type_id === 1 && $dispensasi->status_id === 1 || $dispensasi->type_id === 2 && ($dispensasi->status_id === 1 || $dispensasi->status_id === 2)))
+                                <thead>
+                                    <tr class="bg-gradient-primary sidebar sidebar-dark accordion text-white" id="accordionSidebar">
+                                        <th>Type</th>
+                                        <th>Nama</th>
+                                        @if ($dispensasi->type_id === 1)
+                                            <th>Waktu Masuk</th>
+                                        @endif
+                                        @if ($dispensasi->type_id === 2)
+                                            <th>Waktu Keluar</th>
+                                            <th>Waktu Kembali</th>
+                                        @endif
+                                        <th>Alasan</th>
+                                        <th>Deskripsi</th>
+                                        <th>Bukti</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ $dispensasi->type->name }}</td>
+                                        <td>{{ $dispensasi->user->name }}</td>
+                                        @if ($dispensasi->type_id === 1)
+                                            <td>{{ $dispensasi->waktu_masuk }}</td>
+                                        @endif
+                                        @if ($dispensasi->type_id === 2)
+                                            <td>{{ $dispensasi->waktu_keluar }}</td>
+                                            <td>{{ $dispensasi->waktu_kembali }}</td>
+                                        @endif
+                                        <td>{{ $dispensasi->alasan->name }}</td>
+                                        <td>{{ $dispensasi->deskripsi }}</td>
+                                        <td><a href="{{ asset('storage/' . $dispensasi->bukti) }}" target="_blank"><span data-feather="eye"></span></a></td>
+                                        <td>{{ $dispensasi->status->name }}</td>
+                                    </tr>
+                                </tbody>
+                            @endif
+                        @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Add an event listener for Trix Editor change event

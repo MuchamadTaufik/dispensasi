@@ -31,24 +31,10 @@ class DispensasiController extends Controller
         $dispensasisKeluar = null;
         $dispensasisMasuk = null;
 
-        // Inisialisasi variabel dispensasisSakit dan dispensasisIzin
-        $dispensasisSakit = null;
-        $dispensasisIzin = null;
-
         // Jika pengguna adalah admin, dapatkan semua data dispensasi
         if ( $user->role_id === 2) {
             $dispensasisKeluar = Dispensasi::where('type_id', 2)->get();
             $dispensasisMasuk = Dispensasi::where('type_id', 1)->get();
-
-            $dispensasisSakit = Dispensasi::where('alasan_id', 'sakit')->get();
-            $dispensasisIzin = Dispensasi::where('alasan_id', 'izin')->get();
-        } else {
-            // Jika pengguna bukan admin, hanya dapatkan data dispensasi yang terkait dengan pengguna
-            $dispensasisKeluar = Dispensasi::where('user_id', $user->id)->where('type_id', 2)->get();
-            $dispensasisMasuk = Dispensasi::where('user_id', $user->id)->where('type_id', 1)->get();
-
-            $dispensasisSakit = Dispensasi::where('user_id', $user->id)->where('alasan_id', 'sakit')->get();
-            $dispensasisIzin = Dispensasi::where('user_id', $user->id)->where('alasan_id', 'izin')->get();
         }
 
         return view('dashboard.dispensasi.index', [
@@ -58,8 +44,6 @@ class DispensasiController extends Controller
             'statuses' => Status::all(),
             'dispensasisKeluar' => $dispensasisKeluar,
             'dispensasisMasuk' => $dispensasisMasuk,
-            'dispensasisSakit' => $dispensasisSakit,
-            'dispensasisIzin' => $dispensasisIzin,
         ]);
 
     }
@@ -68,12 +52,16 @@ class DispensasiController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {  
+        $user = Auth::user();
+        $dispensasis = Dispensasi::where('user_id', $user->id)->get();
+
         return view('dashboard.pengajuan.index',[
         'users' => User::all(),
         'types' => Type::all(),
         'alasans' => Alasan::all(),
         'statuses' => Status::all(),
+        'dispensasis' => $dispensasis
         ]);
     }
 
@@ -86,13 +74,18 @@ class DispensasiController extends Controller
         $user = Auth::user();
     
         // Pengecekan apakah pengguna memiliki dispensasi yang masih pending
-        $existingPendingDispensasi = Dispensasi::where('user_id', $user->id)
-            ->where('status_id', 1) // Assuming 1 is the status for pending dispensation
-            ->exists();
+        $existingPendingDispensasi = Dispensasi::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->where(function ($query) {
+                    $query->where('type_id', 1)->where('status_id', 1)
+                        ->orWhere('type_id', 2)->whereIn('status_id', [1, 2]);
+                });
+        })->exists();
+
     
         // Jika pengguna memiliki dispensasi yang masih pending, redirect kembali dengan pesan error
         if ($existingPendingDispensasi) {
-            toast()->error('Pengajuan Gagal', 'Anda tidak dapat mengajukan dispensasi baru karena masih terdapat dispensasi yang belum diproses.');
+            toast()->error('Pengajuan Gagal', 'Anda tidak dapat mengajukan dispensasi baru karena masih terdapat dispensasi yang masih dalam proses.');
             return redirect('/pengajuan')->withInput();
         }
     
@@ -151,8 +144,8 @@ class DispensasiController extends Controller
         $user = auth()->user();
 
         // Check if the authenticated user is the owner of the dispensasi or has the role of "guru-piket"
-        if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
-            $user->role_id === 2) {
+        if (($user->role_id === 2 && $dispensasi->type_id === 1 && $dispensasi->status_id === 2) ||
+            ($user->role_id === 2 && $dispensasi->type_id === 2 && $dispensasi->status_id === 4)) {
             return view('dashboard.dispensasi.show', [
                 'users' => User::all(),
                 'types' => Type::all(),
@@ -210,42 +203,81 @@ class DispensasiController extends Controller
         }
     }
 
-    public function rejected( Request $request, $id)
+    // public function rejected( Request $request, $id)
+    // {
+    //     try {
+    //         // Check if the authenticated user has the role of "guru-piket"
+    //         if (auth()->user()->role_id === 2) {
+    //             // Fetch the dispensasi data
+    //             $dispensasi = Dispensasi::find($id);
+    
+    //             // Assuming status_id 3 is for rejected status
+    //             $dispensasi->update([
+    //                 'status_id' => 3
+    //             ]);
+    
+    //             // Delete the associated image
+    //             if ($dispensasi->bukti) {
+    //                 Storage::delete($dispensasi->bukti);
+    //             }
+                
+    //             // Mengirim notifikasi setelah dispensasi ditolak
+    //             $pesanReject = request('pesan_reject', 'Dispensasi Ditolak');
+
+    //             $dispensasi->user->notify(new DispensasiReject($dispensasi, $pesanReject));
+
+    //             // Delete the dispensasi data
+    //             $dispensasi->delete();
+                
+    //             toast()->success('Berhasil', 'Dispensasi berhasil di tolak');
+    //             return redirect('/')->withInput();
+    //         } else {
+    //             toast()->error('Gagal', 'Anda tidak bisa menolak dispensasi');
+    //             return redirect('/')->withInput();
+    //         }
+    //     } catch (\Exception $e) {
+    //         toast()->error('Gagal', 'Gagal menolak dispensasi');
+    //         return redirect('/')->withInput();
+    //     }
+    // }
+
+    public function rejected(Request $request, $id)
     {
         try {
             // Check if the authenticated user has the role of "guru-piket"
             if (auth()->user()->role_id === 2) {
                 // Fetch the dispensasi data
                 $dispensasi = Dispensasi::find($id);
-    
+
                 // Assuming status_id 3 is for rejected status
                 $dispensasi->update([
-                    'status_id' => 3
+                    'status_id' => 3,
+                    'waktu_persetujuan' => now()->setTimezone('Asia/Jakarta') // Set the waktu_persetujuan
                 ]);
-    
-                // Delete the associated image
-                if ($dispensasi->bukti) {
-                    Storage::delete($dispensasi->bukti);
-                }
-                
+
                 // Mengirim notifikasi setelah dispensasi ditolak
                 $pesanReject = request('pesan_reject', 'Dispensasi Ditolak');
 
                 $dispensasi->user->notify(new DispensasiReject($dispensasi, $pesanReject));
+                // Delete the associated image
+                if ($dispensasi->bukti) {
+                    Storage::delete($dispensasi->bukti);
+                }
 
-                // Delete the dispensasi data
-                $dispensasi->delete();
-                
-                toast()->success('Berhasil', 'Dispensasi berhasil di tolak');
-                return redirect('/')->withInput();
+                toast()->success('Berhasil', 'Dispensasi berhasil ditolak');
             } else {
                 toast()->error('Gagal', 'Anda tidak bisa menolak dispensasi');
-                return redirect('/')->withInput();
             }
         } catch (\Exception $e) {
             toast()->error('Gagal', 'Gagal menolak dispensasi');
-            return redirect('/')->withInput();
         }
+
+        // Delete the dispensasi data after sending notification
+        if (isset($dispensasi)) {
+            $dispensasi->delete();
+        }
+
+        return redirect('/')->withInput();
     }
 
     public function downloadPdf(Dispensasi $dispensasi)
@@ -334,8 +366,8 @@ class DispensasiController extends Controller
                 'waktu_masuk' => 'nullable|date_format:Y-m-d\TH:i',
                 'waktu_keluar' => 'nullable|date_format:Y-m-d\TH:i|before_or_equal:waktu_kembali|before_or_equal:waktu_selesai|before_or_equal:waktu_persetujuan',
                 'waktu_kembali' => 'nullable|date_format:Y-m-d\TH:i|after_or_equal:waktu_keluar|after_or_equal:waktu_persetujuan',
-                'waktu_selesai' => 'nullable|date|after_or_equal:waktu_keluar|after_or_equal:waktu_persetujuan',
-                'waktu_persetujuan' => 'nullable|date|after_or_equal:waktu_keluar|before_or_equal:waktu_kembali|before_or_equal:waktu_selesai',
+                'waktu_selesai' => 'nullable|date',
+                'waktu_persetujuan' => 'nullable|date',
                 'alasan_id' => 'required',
                 'deskripsi' => 'nullable|max:255',
                 'bukti' => 'image|file|max:2048',

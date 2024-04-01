@@ -15,7 +15,14 @@
             <hr class="divider">
         <p class="card-text"><strong>Alasan :</strong> <span class="data">{{ $dispensasi->alasan->name }}</span></p>
             <hr class="divider">
-        <p class="card-text"><strong>Bukti :</strong> <a href="{{ asset('storage/' . $dispensasi->bukti) }}" target="_blank"><span data-feather="eye"></span></a></p>
+        <p class="card-text"><strong>Bukti :</strong>
+            <span class="data">
+                <a href="{{ asset('storage/' . $dispensasi->bukti) }}" target="_blank"><span data-feather="eye"></span></a>
+            </span>
+            <span class="data">
+                <a href="{{ asset('storage/' . $dispensasi->bukti) }}" download target="_blank"><span data-feather="download"></span></a>
+            </span>
+        </p>
             <hr class="divider">
         @if ($dispensasi->type_id === 2)
             <p class="card-text"><strong>Waktu Keluar :</strong> <span class="data">{{ $dispensasi->waktu_keluar }}</span></p>
@@ -34,6 +41,15 @@
                 <hr class="divider">
         @endif
         <p class="card-text"><strong>Deskripsi :</strong> <span class="data">{{ $dispensasi->deskripsi }}</span></p>
+            <hr class="divider">
+        <p class="card-text"><strong>Surat Dispensasi :</strong>
+            <span class="data">
+                <a href="{{ route('dispensasi.show', ['dispensasi' => $dispensasi->id]) }}"target="_blank"><span data-feather="eye"></a>
+            </span>
+            <span class="data">
+                <a href="{{ route('download-pdf', $dispensasi->id) }}" target="_blank"><span data-feather="download"></a>
+            </span>
+        </p>
             <hr class="divider">
         <a href="/" class="btn btn-primary"><span data-feather="arrow-left"></span> Kembali</a>
     </div>
