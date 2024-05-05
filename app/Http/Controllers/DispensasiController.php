@@ -38,10 +38,10 @@ class DispensasiController extends Controller
         }
 
         return view('dashboard.dispensasi.index', [
-            'users' => User::all(),
-            'types' => Type::all(),
-            'alasans' => Alasan::all(),
-            'statuses' => Status::all(),
+            // 'users' => User::all(),
+            // 'types' => Type::all(),
+            // 'alasans' => Alasan::all(),
+            // 'statuses' => Status::all(),
             'dispensasisKeluar' => $dispensasisKeluar,
             'dispensasisMasuk' => $dispensasisMasuk,
         ]);
@@ -60,7 +60,7 @@ class DispensasiController extends Controller
         'users' => User::all(),
         'types' => Type::all(),
         'alasans' => Alasan::all(),
-        'statuses' => Status::all(),
+        // 'statuses' => Status::all(),
         'dispensasis' => $dispensasis
         ]);
     }
@@ -109,7 +109,7 @@ class DispensasiController extends Controller
         Dispensasi::create($validateData);
     
         toast()->success('Pengajuan Berhasil', 'Data akan divalidasi');
-        return redirect('/')->withInput();
+        return redirect('/pengajuan')->withInput();
     }
     
 
@@ -147,11 +147,11 @@ class DispensasiController extends Controller
         if (($user->role_id === 2 && $dispensasi->type_id === 1 && $dispensasi->status_id === 2) ||
             ($user->role_id === 2 && $dispensasi->type_id === 2 && $dispensasi->status_id === 4)) {
             return view('dashboard.dispensasi.show', [
-                'users' => User::all(),
-                'types' => Type::all(),
-                'alasans' => Alasan::all(),
-                'statuses' => Status::all(),
-                'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
+                // 'users' => User::all(),
+                // 'types' => Type::all(),
+                // 'alasans' => Alasan::all(),
+                // 'statuses' => Status::all(),
+                // 'dispensasis' => Dispensasi::where('id', $dispensasi->id)->get(),
                 'dispensasi' => $dispensasi,
             ]);
         } else {
@@ -285,8 +285,10 @@ class DispensasiController extends Controller
         $user = auth()->user();
 
         // Check if the user is the owner of the dispensasi, has the role of "guru-piket", or if dispensasi is approved
-        if ($user->id === $dispensasi->user_id && $dispensasi->status_id === 2 ||
-            $user->role_id === 2) {
+            if ($user->id === $dispensasi->user_id && 
+                (($dispensasi->type_id === 1 && $dispensasi->status_id === 2) || 
+                ($dispensasi->type_id === 2 && $dispensasi->status_id === 4)) || 
+                $user->role_id === 2){
             
             $pdf = app(PDF::class);
             $pdf->loadView('dashboard.dispensasi.surat.index', [
@@ -353,7 +355,7 @@ class DispensasiController extends Controller
             'users' => User::all(),
             'types' => Type::all(),
             'alasans' => Alasan::all(),
-            'statuses' => Status::all(),
+            // 'statuses' => Status::all(),
         ]);
     }
 

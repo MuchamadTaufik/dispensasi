@@ -36,7 +36,7 @@
                     <div class="mb-3 col-md-6">
                         <label class="form-label">Email</label>
                         <p class="border border-2 p-2">{{ auth()->user()->email }}</p>
-                        <p><a href="/change-password">Change Password</a></p>
+                        <p><a href="/change-password">Ubah Password</a></p>
                     </div>
                 </div>
         </div>
