@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "3.1.48",
+        "milon/barcode": "^11.0",
         "phpoffice/phpspreadsheet": "^1.9",
         "realrashid/sweet-alert": "^7.1"
     },

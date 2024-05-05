@@ -37,24 +37,6 @@
             <hr style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
         </table>
 
-        <table>
-            <table width="350">
-                <tr>
-                    <td>Nama</td>
-                    <td>:</td>
-                    <td>Momon Sudarma</td>
-                </tr>
-                <tr>
-                    <td>Jabatan</td>
-                    <td>:</td>
-                    <td>Kepala Sekolah</td>
-                </tr>
-            </table><br>
-            <tr>
-                <td>Menyatakan dengan sebenarnya bahwa :</td>
-            </tr>
-        </table>
-
         <table width="300">
             @if ($dispensasis && count($dispensasis) > 0)
                 @php $dispensasi = $dispensasis[0]; @endphp
@@ -132,9 +114,10 @@
                 <td>Adalah benar telah melakukan Dispensasi</td>
             </tr>
         </table><br>
-
-        <div style="width:30%; text-align: left; float:right;">
-        </div><br>
+        <table>
+            {{-- {!! DNS2D::getBarcodeHTML("$dispensasi->id", 'QRCODE',5,5) !!} --}}
+            {!! DNS2D::getBarcodeHTML(route('dispensasi.data', $dispensasi->id), 'QRCODE',3,3) !!}
+        </table>
     </div>
 </body>
 </html>

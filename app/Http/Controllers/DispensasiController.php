@@ -89,6 +89,11 @@ class DispensasiController extends Controller
             return redirect('/pengajuan')->withInput();
         }
     
+        // Mendapatkan nomor dispensasi acak
+        // do {
+        //     $number = mt_rand(1000000000, 9999999999);
+        // } while ($this->dispensasiCodeExists($number));
+
         // Jika pengguna tidak memiliki dispensasi yang masih pending, lanjutkan dengan validasi dan penyimpanan data
         $validateData = $request->validate([
             'user_id' => 'required',
@@ -101,6 +106,9 @@ class DispensasiController extends Controller
             'bukti' => 'image|file|max:2048',
             'status_id' => 'nullable'
         ]);
+
+        // Menyimpan nomor dispensasi ke dalam data yang akan disimpan
+        // $validateData['dispensasi_code'] = $number;
     
         if ($request->file('bukti')) {
             $validateData['bukti'] = $request->file('bukti')->store('dispensasi-images');
@@ -111,6 +119,11 @@ class DispensasiController extends Controller
         toast()->success('Pengajuan Berhasil', 'Data akan divalidasi');
         return redirect('/pengajuan')->withInput();
     }
+
+    // private function dispensasiCodeExists($number)
+    // {
+    //     return Dispensasi::where('dispensasi_code', $number)->exists();
+    // }
     
 
     /**
@@ -287,7 +300,7 @@ class DispensasiController extends Controller
         // Check if the user is the owner of the dispensasi, has the role of "guru-piket", or if dispensasi is approved
             if ($user->id === $dispensasi->user_id && 
                 (($dispensasi->type_id === 1 && $dispensasi->status_id === 2) || 
-                ($dispensasi->type_id === 2 && $dispensasi->status_id === 4)) || 
+                ($dispensasi->type_id === 2 && $dispensasi->status_id === 2)) || 
                 $user->role_id === 2){
             
             $pdf = app(PDF::class);
@@ -404,6 +417,12 @@ class DispensasiController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function data(Dispensasi $dispensasi)
+    {
+        // Disini Anda bisa melakukan apa pun dengan dispensasi, misalnya menampilkan halaman detailnya
+        return view('dashboard.dispensasi.surat.detail', compact('dispensasi'));
     }
     
 }

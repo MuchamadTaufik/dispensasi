@@ -21,6 +21,7 @@ use App\Http\Controllers\NotifikasiController;
 */
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('guest');
+Route::get('/dispensasi/data/{dispensasi}', [DispensasiController::class, 'data'])->name('dispensasi.data');
 
 Route::group(['middleware'=>'auth'], function(){
     Route::get('/change-password',[LoginController::class, 'changePassword']);
