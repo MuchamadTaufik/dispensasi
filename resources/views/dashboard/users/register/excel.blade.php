@@ -13,5 +13,9 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Import</button>
+        <div class="mb-3 mt-3">
+            <a href="{{ asset('/tamplate/tamplate_excel.xlsx') }}" class="btn btn-secondary">Download Template</a>
+            <a href="{{ asset('/tamplate/daftar_kelas.xlsx') }}" class="btn btn-secondary">daftar kelas</a>
+        </div>
     </form>
 @endsection
