@@ -39,6 +39,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // protected $with = ['role', 'kelas', 'notifications'];
+    protected $with = ['notifications','kelas','role'];
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');

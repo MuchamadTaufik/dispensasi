@@ -11,6 +11,9 @@ class Dispensasi extends Model
 
     protected $guarded = ['id'];
 
+    // protected $with = ['user', 'type', 'alasan', 'status'];
+    protected $with = ['user','type','alasan','status'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

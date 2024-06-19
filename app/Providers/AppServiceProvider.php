@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,5 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('guru-piket-or-admin', function($user) {
             return in_array($user->role_id, [1, 2]);
         });
+
+        //untuk menjaga dari lazy loading
+        Model::preventLazyLoading();
     }
 }
