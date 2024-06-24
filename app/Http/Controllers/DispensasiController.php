@@ -300,7 +300,7 @@ class DispensasiController extends Controller
         // Check if the user is the owner of the dispensasi, has the role of "guru-piket", or if dispensasi is approved
             if ($user->id === $dispensasi->user_id && 
                 (($dispensasi->type_id === 1 && $dispensasi->status_id === 2) || 
-                ($dispensasi->type_id === 2 && $dispensasi->status_id === 2)) || 
+                ($dispensasi->type_id === 2 && ($dispensasi->status_id === 2 || $dispensasi->status_id === 4) )) || 
                 $user->role_id === 2){
             
             $pdf = app(PDF::class);

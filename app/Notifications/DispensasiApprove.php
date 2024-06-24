@@ -70,7 +70,7 @@ class DispensasiApprove extends Notification
             'name' => $this->dispensasi->user->name,
             'kelas' => $this->dispensasi->user->kelas->name,
             'alasan' => $this->dispensasi->alasan->name ,
-            'messages' => $this->dispensasi->status->name,
+            'messages' => 'Diterima',
             'surat' => '<a href="' . route('download-pdf', $this->dispensasi->id) . '">Download Surat</a>',
         ];
     }

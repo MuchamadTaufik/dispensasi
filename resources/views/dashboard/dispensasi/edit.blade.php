@@ -18,12 +18,12 @@
             <label for="name" class="form-label">Name</label>
             <select class="form-control" name="user_id" style="display: none;">
                 @foreach ($users as $user)
-                    @if (auth()->user()->id === $user->id)
-                        <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
+                    @if ($user->id)
+                        <option value="{{ $dispensasi->user->id }}" selected>{{ $dispensasi->user->name }}</option>
                     @endif
                 @endforeach
             </select>            
-            <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
+            <input type="text" class="form-control" value="{{ $dispensasi->user->name }}" readonly>
         </div>
         @if ($dispensasi->type_id === 1)
         <div class="mb-2">
