@@ -29,8 +29,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'kelas_id' => 1,
-                'name' => 'Cristiano Ronaldo',
-                'email' => 'cr7@gmail.com',
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
                 'nomor_induk' => '203040141',
                 'role_id' => 1,
             ],
